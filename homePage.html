@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Báo 247 - Tin tức cập nhật từng giây</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style/homePage_style.css">
+</head>
+<body>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-header">
+            <h3>Tất cả chuyên mục</h3>
+            <div class="close-sidebar" onclick="toggleSidebar()">×</div>
+        </div>
+        <div class="sidebar-content">
+            <div style="margin-bottom: 20px;">
+                <input type="text" placeholder="Tìm kiếm..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+
+            <div class="sidebar-group">
+                <a href="#thoisu" class="sidebar-main-link">Thời sự</a>
+                <div class="sidebar-sub-links">
+                    <a href="#">Chính trị</a><a href="#">Dân sinh</a><a href="#">Giao thông</a>
+                </div>
+            </div>
+            <div class="sidebar-group">
+                <a href="#kinhdoanh" class="sidebar-main-link">Kinh doanh</a>
+                <div class="sidebar-sub-links">
+                    <a href="#">Quốc tế</a><a href="#">Doanh nghiệp</a><a href="#">BĐS</a>
+                </div>
+            </div>
+            <div class="sidebar-group">
+                <a href="#thethao" class="sidebar-main-link">Thể thao</a>
+                <div class="sidebar-sub-links">
+                    <a href="#">Bóng đá VN</a><a href="#">Ngoại hạng Anh</a>
+                </div>
+            </div>
+            <div class="sidebar-group">
+                <a href="#giaitri" class="sidebar-main-link">Giải trí</a>
+            </div>
+            <a href="#gocnhin" class="sidebar-main-link" style="border-bottom: 1px dashed #eee; padding-bottom: 15px;">Góc nhìn</a>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="login-box">
+            <div class="close-btn" onclick="closeLogin()">×</div>
+            <h2 class="login-title">Đăng nhập</h2>
+            <p class="login-desc">Truy cập để theo dõi tin tức & bình luận</p>
+            <form>
+                <div class="form-group"><input type="email" class="form-input" placeholder="Email hoặc số điện thoại"></div>
+                <div class="form-group"><input type="password" class="form-input" placeholder="Mật khẩu"></div>
+                <div style="text-align:right; margin-bottom:15px; font-size:12px;"><a href="#" style="color:#666;">Quên mật khẩu?</a></div>
+                <button type="button" class="btn-login">Đăng nhập</button>
+            </form>
+            <div class="login-footer">Chưa có tài khoản? <a href="#">Đăng ký ngay</a></div>
+        </div>
+    </div>
+
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="header-left flex-center gap-15">
+                    <div style="text-align:left;">
+                        <a href="#" class="logo-img">BÁO<span class="logo-highlight">247</span></a>
+                    </div>
+                    <div class="header-info">
+                        <span>TP HCM</span> <span style="color:#444">|</span> <span id="date-now">Thứ ba</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Tìm kiếm">
+                    </div>
+                    <a href="javascript:void(0)" class="btn-open-login" onclick="openLogin()">Đăng nhập</a>
+                </div>
+            </div>
+            
+            <div class="nav-wrapper">
+                <div class="container">
+                    <div class="nav-container">
+                        <svg class="nav-home" width="18" height="18" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                        <a href="#" class="nav-link highlight">Mới nhất</a>
+                        <a href="#thoisu" class="nav-link">Thời sự</a>
+                        <a href="#thegioi" class="nav-link">Thế giới</a>
+                        <a href="#kinhdoanh" class="nav-link">Kinh doanh</a>
+                        <a href="#thethao" class="nav-link">Thể thao</a>
+                        <a href="#giaitri" class="nav-link">Giải trí</a>
+                        <a href="#phapluat" class="nav-link">Pháp luật</a>
+                        
+                        <div class="burger-btn" onclick="toggleSidebar()">
+                            <svg width="24" height="24" fill="#ccc" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="vedette-section">
+            <div class="vedette-grid">
+                <article class="vedette-main article-card">
+                    <a href="#" class="thumb-wrapper"><img src="https://placehold.co/800x480/333/FFF?text=VEDETTE+NEWS" alt="Main"></a>
+                    <h1 class="title-serif"><a href="#">Thủ tướng: 'Đột phá chiến lược hạ tầng để phát triển kinh tế 2025'</a></h1>
+                    <p class="desc">Tại phiên họp Chính phủ thường kỳ, người đứng đầu Chính phủ nhấn mạnh 3 trọng tâm: thể chế, hạ tầng và nhân lực chất lượng cao.</p>
+                </article>
+                <div class="sub-vedette">
+                    <article class="sub-vedette-item article-card">
+                        <h3 class="title-serif"><a href="#">Giá vàng nhẫn trơn tiếp tục phá đỉnh 66 triệu đồng</a></h3>
+                        <p class="desc">Nhu cầu mua tích trữ cuối năm tăng cao khiến giá vàng trong nước chênh lệch lớn.</p>
+                    </article>
+                    <div style="border-top:1px solid #f0f0f0"></div>
+                    <article class="sub-vedette-item article-card">
+                        <h3 class="title-serif"><a href="#">Miền Bắc đón không khí lạnh mạnh nhất từ đầu mùa</a></h3>
+                        <p class="desc">Nhiệt độ vùng núi có thể xuống dưới 5 độ C.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <div class="layout-split">
+            <main>
+                <section id="thoisu" class="cat-section">
+                    <div class="cat-header"><h2 class="cat-title"><a href="#">Thời sự</a></h2></div>
+                    <article class="card-row article-card">
+                        <a href="#" class="thumb-wrapper"><img src="https://placehold.co/300x180/EEE/555?text=Politics" alt="News"></a>
+                        <div class="card-content">
+                            <h3 class="title-serif"><a href="#">Đề xuất nghỉ Tết Âm lịch 7 ngày được các bộ ngành đồng thuận</a></h3>
+                            <p class="desc">Bộ Lao động Thương binh và Xã hội cho biết 16/16 bộ ngành đã đồng ý với phương án nghỉ Tết Giáp Thìn 7 ngày.</p>
+                        </div>
+                    </article>
+                    <div class="grid-3">
+                        <article class="card-stack article-card"><a href="#" class="thumb-wrapper"><img src="https://placehold.co/220x130/EEE/555" alt="s"></a><h3 class="title-serif"><a href="#">Thông xe đường vành đai 3 trên cao</a></h3></article>
+                        <article class="card-stack article-card"><a href="#" class="thumb-wrapper"><img src="https://placehold.co/220x130/EEE/555" alt="s"></a><h3 class="title-serif"><a href="#">Dự báo áp thấp nhiệt đới gần biển Đông</a></h3></article>
+                        <article class="card-stack article-card"><a href="#" class="thumb-wrapper"><img src="https://placehold.co/220x130/EEE/555" alt="s"></a><h3 class="title-serif"><a href="#">Kiểm tra an toàn PCCC chung cư mini</a></h3></article>
+                    </div>
+                </section>
+
+                <section id="doanhnghiep" class="cat-section">
+                    <div class="enterprise-box">
+                        <div class="cat-header" style="margin-bottom: 20px; border-bottom: 1px solid #ddd;">
+                            <h2 class="cat-title" style="font-size: 16px;">Thông tin Tòa soạn</h2>
+                        </div>
+                        <div class="enterprise-info-grid">
+                            <div class="e-col">
+                                <span class="logo-img" style="color:#333; font-size:24px; margin-bottom:10px;">BÁO<span class="logo-highlight">247</span></span>
+                                <div class="e-row"><span class="e-label">Tổng biên tập:</span> Nguyễn Văn A</div>
+                                <div class="e-row"><span class="e-label">Giấy phép:</span> 08/GP-BTTTT</div>
+                            </div>
+                            <div class="e-col">
+                                <div class="e-row"><span class="e-label">Hotline:</span> 0909.xxx.xxx</div>
+                                <div class="e-row"><span class="e-label">Email:</span> toasoan@bao247.vn</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <aside>
+                <div class="sidebar-widget tab-box">
+                    <div class="tab-header"><div class="tab-btn active">Xem nhiều</div></div>
+                    <ul class="rank-list">
+                        <li class="rank-item"><span class="rank-num rank-1">1</span><a href="#" class="rank-link">Lịch nghỉ Tết 2024 chốt phương án</a></li>
+                        <li class="rank-item"><span class="rank-num rank-2">2</span><a href="#" class="rank-link">Giá vàng SJC biến động mạnh</a></li>
+                        <li class="rank-item"><span class="rank-num rank-3">3</span><a href="#" class="rank-link">Vụ án Vạn Thịnh Phát</a></li>
+                        <li class="rank-item"><span class="rank-num">4</span><a href="#" class="rank-link">Dự báo đợt rét đậm nhất</a></li>
+                        <li class="rank-item"><span class="rank-num">5</span><a href="#" class="rank-link">HLV Troussier trả lời họp báo</a></li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <div class="f-group"><h4>Trang chủ</h4><a href="#">Thời sự</a><a href="#">Thế giới</a></div>
+                <div class="f-group"><h4>Kinh doanh</h4><a href="#">Tài chính</a><a href="#">BĐS</a></div>
+                <div class="f-group"><h4>Giải trí</h4><a href="#">Sao</a><a href="#">Phim</a></div>
+                <div class="f-group">
+                    <h4>Kết nối</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-icon">F</a>
+                        <a href="#" class="social-icon">Y</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div style="width: 100%; height: 1px; background: #f0f0f0; margin-bottom: 10px;"></div>
+                <div style="display: flex; justify-content: space-between; font-size: 13px; color: #888;">
+                    <span>© 2025 Báo 247.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
+        <svg class="icon" style="width:20px; height:20px;" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
+    </div>
+
+    <script src="script/homePage_script.js"></script>
+</body>
+</html>
