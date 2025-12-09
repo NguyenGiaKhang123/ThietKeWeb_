@@ -12,7 +12,7 @@
     --container-width: 1160px;
     
     /* Desktop */
-    --header-top-height: 90px;
+    --header-top-height: 136px;
     --header-nav-height: 46px;
 }
 
@@ -359,3 +359,4 @@ footer { border-top: 4px solid #e5e5e5; background: #fff; padding-top: 40px; mar
     .photo-main img, .photo-sub img { height: auto; aspect-ratio: 16/9; width: 100%; }
     .footer-links { grid-template-columns: 1fr 1fr; gap: 30px 15px; }
 }
+
