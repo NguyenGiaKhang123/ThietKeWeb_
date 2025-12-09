@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đang tải nội dung...</title> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- COPY CSS CƠ BẢN TỪ INDEX SANG ĐỂ ĐỒNG BỘ --- */
+        :root { --primary-red: #e60000; --text-main: #222; --text-gray: #757575; --font-serif: "Merriweather", serif; --font-sans: "Inter", sans-serif; --container-width: 1160px; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-sans); background: #fcfcfc; color: var(--text-main); font-size: 16px; line-height: 1.6; }
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        a:hover { color: var(--primary-red); }
+        img { max-width: 100%; display: block; object-fit: cover; }
+        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 15px; background: #fff; }
+        
+        /* HEADER & FOOTER (Giống Index) */
+        header { background-color: #1a1a1a; color: #e5e5e5; padding: 12px 0; border-bottom: 2px solid #000; margin-bottom: 30px; }
+        .logo-img { font-family: var(--font-serif); font-size: 28px; font-weight: 900; color: #fff; text-transform: uppercase; }
+        .logo-highlight { background: linear-gradient(135deg, #ff0000, #990000); padding: 2px 6px; margin-left: 5px; border-radius: 4px; }
+        footer { border-top: 4px solid #e5e5e5; background: #fff; padding: 40px 0; margin-top: 50px; text-align: center; color: #666; font-size: 14px; }
+
+        /* --- CSS RIÊNG CHO TRANG DETAIL --- */
+        .layout-detail { display: grid; grid-template-columns: 2.5fr 1fr; gap: 40px; }
+        
+        /* Breadcrumb (Đường dẫn) */
+        .breadcrumb { font-size: 13px; color: var(--primary-red); text-transform: uppercase; font-weight: 700; margin-bottom: 15px; }
+        .breadcrumb span { color: #999; margin: 0 5px; }
+
+        /* Tiêu đề & Meta */
+        .detail-title { font-family: var(--font-serif); font-size: 36px; font-weight: 900; line-height: 1.3; margin-bottom: 15px; color: #111; }
+        .detail-meta { font-size: 14px; color: #777; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
+        
+        /* Nội dung chính */
+        .detail-summary { font-weight: 700; font-size: 18px; color: #444; margin-bottom: 25px; font-family: var(--font-serif); }
+        .detail-content { font-size: 17px; color: #333; }
+        .detail-content p { margin-bottom: 20px; text-align: justify; } /* Tự động tách đoạn văn */
+        
+        /* Ảnh trong bài */
+        .featured-img { width: 100%; margin-bottom: 25px; border-radius: 4px; }
+
+        /* Sidebar */
+        .sidebar-title { font-weight: 700; text-transform: uppercase; border-bottom: 2px solid var(--primary-red); margin-bottom: 15px; display: inline-block; font-size: 14px; }
+        .relate-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
+        .relate-item a { font-weight: 600; font-family: var(--font-serif); font-size: 15px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
+            <a href="index.html" class="logo-img">BÁO<span class="logo-highlight">247</span></a>
+            <a href="index.html" style="font-size:13px; color:#ccc; text-transform:uppercase;">← Quay lại trang chủ</a>
+        </div>
+    </header>
+
+    <div class="container layout-detail">
+        <main>
+            <div class="breadcrumb" id="d-category">Tin tức</div>
+            
+            <h1 class="detail-title" id="d-title">Đang tải bài viết...</h1>
+            
+            <div class="detail-meta">
+                <span>Tác giả: <b id="d-author">Tòa soạn</b></span>
+                <span id="d-date">...</span>
+            </div>
+
+            <div class="detail-summary" id="d-summary"></div>
+
+            <img src="" id="d-img" class="featured-img" style="display:none;" onerror="this.style.display='none'">
+
+            <div class="detail-content" id="d-content">
+                </div>
+        </main>
+
+        <aside>
+            <div class="sidebar-title">Tin nổi bật</div>
+            <div class="relate-item"><a href="#">Giá vàng hôm nay tiếp tục phá đỉnh lịch sử</a></div>
+            <div class="relate-item"><a href="#">Dự báo thời tiết: Miền Bắc đón không khí lạnh</a></div>
+            <div class="relate-item"><a href="#">Công nghệ AI thay đổi thế giới ra sao?</a></div>
+            <div style="margin-top:20px; background:#f0f0f0; height:300px; display:flex; align-items:center; justify-content:center; color:#999;">QUẢNG CÁO</div>
+        </aside>
+    </div>
+
+    <footer>
+        <div class="container">© 2025 Báo điện tử 247.</div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+</html>

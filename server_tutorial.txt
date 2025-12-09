@@ -1,0 +1,11 @@
+1. Yêu cầu
+- Tải node.js theo link sau (Lưu ý nhớ tải bản LTS): 
+https://nodejs.org/en/download
+- Tải xong node.js rồi thì mở Terminal trong VS rồi tải các thư viện sau bằng cách gõ:
+"npm install express mysql2 cors doting"
+
+2. Cách vào được database(db) để làm việc
+- Mở terminal trong VS rồi gõ "node server.js"
+- Đợi một lúc cho đến khi hiện thông báo vào được
+- Nếu không truy cập được thì vấn đề nằm ở nhà mạng, một số nhà mạng chặn truy cập db nên dùng 4g để truy cập
+- Để thoát ra khỏi db thì vào lại terminal gõ tổ hợp phím ctrl + c
