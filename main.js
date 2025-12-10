@@ -1,155 +1,69 @@
-const API_URL = 'http://localhost:3000/api';
+/* =========================================
+   LOGIC XỬ LÝ TRANG CHI TIẾT (DETAIL)
+   ========================================= */
 
-// Hàm sửa lỗi ảnh
-function fixImg(url) {
-    if (!url || url === 'null') return 'https://placehold.co/600x400?text=No+Image';
-    if (url.includes('drive.google.com')) {
-        let id = '';
-        const parts = url.split(/\/d\/|id=/);
-        if (parts.length > 1) id = parts[1].split('/')[0];
-        if (id) return `https://lh3.googleusercontent.com/d/${id}`;
+const API_URL = 'http://localhost:4000/api';
+
+document.addEventListener('DOMContentLoaded', async function() {
+    // 1. Lấy ID từ URL (Ví dụ: detail.html?id=5)
+    const urlParams = new URLSearchParams(window.location.search);
+    const baivietId = urlParams.get('id');
+
+    if (!baivietId) {
+        hienThiLoi("Không tìm thấy ID bài viết trên thanh địa chỉ.");
+        return;
     }
-    return url;
-}
 
-// Hàm format ngày
-function formatDate(dateString) {
-    if(!dateString) return '';
-    const date = new Date(dateString);
-    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
-}
-
-// --- 1. LOAD TRANG CHỦ: VEDETTE ---
-async function loadVedette() {
     try {
-        const res = await fetch(`${API_URL}/articles`);
-        const data = await res.json();
-        if (data.length === 0) return;
-
-        const bigNews = data[0];
-        const subNews = data.slice(1, 4);
-
-        // LƯU Ý: href="detail.html?id=${...}"
-        document.getElementById('vedette-area').innerHTML = `
-            <div class="vedette-grid">
-                <article class="vedette-main article-card">
-                    <a href="detail.html?id=${bigNews.article_id}" class="thumb-wrapper">
-                        <img src="${fixImg(bigNews.thumbnail_url)}" onerror="this.src='https://placehold.co/800x450?text=Loi+Anh'" referrerpolicy="no-referrer">
-                    </a>
-                    <h1 class="title-serif"><a href="detail.html?id=${bigNews.article_id}">${bigNews.title}</a></h1>
-                    <p class="desc">${bigNews.summary}</p>
-                    <div class="meta"><span class="badge badge-live">MỚI</span> ${formatDate(bigNews.published_at)}</div>
-                </article>
-
-                <div class="sub-vedette">
-                    ${subNews.map(news => `
-                        <article class="sub-vedette-item article-card">
-                            <h3 class="title-serif"><a href="detail.html?id=${news.article_id}">${news.title}</a></h3>
-                            <div class="meta text-gray">${formatDate(news.published_at)}</div>
-                        </article>
-                        <div style="border-top:1px solid #f0f0f0"></div>
-                    `).join('')}
-                </div>
-            </div>
-        `;
-    } catch (e) { console.error(e); }
-}
-
-// --- 2. LOAD TRANG CHỦ: CATEGORIES ---
-async function loadCategories() {
-    try {
-        const resCat = await fetch(`${API_URL}/categories`);
-        const categories = await resCat.json();
-        const container = document.getElementById('category-container');
-        const nav = document.getElementById('main-nav');
+        // 2. Gọi API lấy chi tiết bài viết từ Server
+        const res = await fetch(`${API_URL}/articles/${baivietId}`);
         
-        container.innerHTML = '';
-        nav.innerHTML = '<a href="index.html" class="nav-link highlight">Trang chủ</a>'; // Link về Home
-
-        for (const cat of categories) {
-            nav.innerHTML += `<a href="#cat-${cat.category_id}" class="nav-link">${cat.name}</a>`;
-
-            const resNews = await fetch(`${API_URL}/news/category/${cat.category_id}`);
-            const newsList = await resNews.json();
-
-            if (newsList.length > 0) {
-                const first = newsList[0];
-                const others = newsList.slice(1, 4);
-
-                // LƯU Ý: href="detail.html?id=${...}"
-                container.innerHTML += `
-                    <section id="cat-${cat.category_id}" class="cat-section">
-                        <div class="cat-header"><h2 class="cat-title"><a href="#">${cat.name}</a></h2></div>
-                        
-                        <article class="card-row article-card">
-                            <a href="detail.html?id=${first.article_id}" class="thumb-wrapper">
-                                <img src="${fixImg(first.thumbnail_url)}" onerror="this.src='https://placehold.co/300x200?text=Loi+Anh'" referrerpolicy="no-referrer">
-                            </a>
-                            <div class="card-content">
-                                <h3 class="title-serif"><a href="detail.html?id=${first.article_id}">${first.title}</a></h3>
-                                <p class="desc">${first.summary}</p>
-                            </div>
-                        </article>
-
-                        <div class="grid-3">
-                            ${others.map(n => `
-                                <article class="card-stack article-card">
-                                    <a href="detail.html?id=${n.article_id}" class="thumb-wrapper">
-                                        <img src="${fixImg(n.thumbnail_url)}" onerror="this.src='https://placehold.co/220x140?text=Loi+Anh'" referrerpolicy="no-referrer">
-                                    </a>
-                                    <h3 class="title-serif"><a href="detail.html?id=${n.article_id}">${n.title}</a></h3>
-                                </article>
-                            `).join('')}
-                        </div>
-                    </section>
-                `;
-            }
-        }
-    } catch (e) { console.error(e); }
-}
-
-// --- 3. LOAD TRANG DETAIL ---
-async function loadArticleDetail() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    if (!id) return;
-
-    try {
-        const res = await fetch(`${API_URL}/news/${id}`);
         if (!res.ok) {
-            document.getElementById('d-title').innerText = "Không tìm thấy bài viết!";
-            return;
-        }
-        const article = await res.json();
-
-        document.title = article.title;
-        document.getElementById('d-category').innerText = article.category_name || 'Tin tức';
-        document.getElementById('d-title').innerText = article.title;
-        document.getElementById('d-author').innerText = article.author_name || 'Admin';
-        document.getElementById('d-date').innerText = formatDate(article.published_at);
-        document.getElementById('d-summary').innerText = article.summary;
-
-        const imgEl = document.getElementById('d-img');
-        if (article.thumbnail_url) {
-            imgEl.src = fixImg(article.thumbnail_url);
-            imgEl.style.display = 'block';
-            imgEl.setAttribute('referrerpolicy', 'no-referrer');
+            throw new Error("Bài viết không tồn tại hoặc đã bị xóa.");
         }
 
-        // Tự động xuống dòng cho nội dung
-        let contentHTML = article.content || "";
-        contentHTML = contentHTML.split('\n').map(p => p.trim() ? `<p>${p}</p>` : "").join('');
-        document.getElementById('d-content').innerHTML = contentHTML;
+        const baiViet = await res.json();
+        
+        // Debug: Kiểm tra dữ liệu xem có image_url không
+        console.log("Dữ liệu chi tiết:", baiViet);
 
-    } catch (e) { console.error(e); }
-}
+        // 3. Hiển thị dữ liệu lên giao diện HTML
+        document.title = baiViet.title; // Đổi tên tab trình duyệt
 
-// --- MAIN RUN ---
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.location.pathname.includes('detail.html')) {
-        loadArticleDetail();
-    } else {
-        loadVedette();
-        loadCategories();
+        // Điền dữ liệu
+        document.getElementById('d-category').innerText = baiViet.category || 'Tin tức';
+        document.getElementById('d-title').innerText = baiViet.title;
+        document.getElementById('d-summary').innerText = baiViet.summary || '';
+        document.getElementById('d-date').innerText = new Date(baiViet.created_at).toLocaleString('vi-VN');
+        
+        // Xử lý nội dung (HTML)
+        document.getElementById('d-content').innerHTML = baiViet.content;
+
+        // Xử lý ảnh
+        const imgElement = document.getElementById('d-img');
+        
+        // Kiểm tra biến image_url (đã sửa từ image thành image_url để khớp database)
+        if (baiViet.image_url && baiViet.image_url !== 'null' && baiViet.image_url !== '') {
+            imgElement.src = baiViet.image_url;
+            imgElement.style.display = 'block';
+            
+            // Thêm xử lý nếu link ảnh chết (404)
+            imgElement.onerror = function() {
+                this.src = 'https://placehold.co/800x400?text=Anh+Loi+Link';
+            };
+        } else {
+            imgElement.style.display = 'none';
+        }
+
+    } catch (error) {
+        console.error(error);
+        hienThiLoi("Không tìm thấy bài viết hoặc lỗi kết nối Server.");
     }
-});
+}); // <-- Đã thêm dấu đóng ngoặc ở đây
+
+function hienThiLoi(message) {
+    document.getElementById('d-title').innerText = "Thông báo lỗi";
+    document.getElementById('d-summary').innerText = message;
+    document.getElementById('d-content').innerHTML = `<a href="homePage.html" style="color:red; font-weight:bold;">← Quay lại trang chủ</a>`;
+    document.getElementById('d-img').style.display = 'none';
+}

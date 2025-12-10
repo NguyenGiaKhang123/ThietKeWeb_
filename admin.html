@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Quản Trị - Đăng Bài</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 600px; margin: 0 auto; }
+        .box { padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        input, textarea, select { width: 100%; margin-bottom: 10px; padding: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; }
+        button:hover { background: #218838; }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>✍️ Soạn bài viết (Dùng Link ảnh)</h2>
+    
+    <label>Tiêu đề:</label>
+    <input type="text" id="title" placeholder="Nhập tiêu đề...">
+    
+    <label>Tóm tắt (Sapo):</label>
+    <textarea id="summary" rows="3" placeholder="Đoạn tóm tắt ngắn hiện dưới tiêu đề..."></textarea>
+    
+    <label>Chuyên mục:</label>
+    <select id="category">
+        <option value="thoisu">Thời sự</option>
+        <option value="thegioi">Thế giới</option>
+        <option value="kinhdoanh">Kinh doanh</option>
+        <option value="congnghe">Công nghệ</option>
+        <option value="thethao">Thể thao</option>
+        <option value="giaitri">Giải trí</option>
+        <option value="suckhoe">Sức khỏe</option>
+        <option value="giaoduc">Giáo dục</option>
+        <option value="dulich">Du lịch</option>
+    </select>
+
+    <label>Link ảnh bìa (URL):</label>
+    <input type="text" id="imageUrl" placeholder="">
+    
+    <label>Nội dung chi tiết:</label>
+    <textarea id="content" rows="8" placeholder="Nội dung bài viết..."></textarea>
+    
+    <button onclick="dangBai()">ĐĂNG BÀI NGAY</button>
+</div>
+
+<script>
+async function dangBai() {
+    // 1. Lấy dữ liệu từ các ô input
+    const title = document.getElementById('title').value;
+    const summary = document.getElementById('summary').value;
+    const category = document.getElementById('category').value;
+    const content = document.getElementById('content').value;
+    const imageUrl = document.getElementById('imageUrl').value; // Lấy link ảnh
+
+    // 2. Tạo object dữ liệu để gửi đi
+    const dataToSend = {
+        title: title,
+        summary: summary,
+        category: category,
+        content: content,
+        image_url: imageUrl // Gửi key này để Backend nhận
+    };
+
+    try {
+        // 3. Gửi fetch dạng JSON
+        const res = await fetch('http://localhost:4000/api/add-article', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Bắt buộc phải có dòng này khi gửi JSON
+            },
+            body: JSON.stringify(dataToSend) // Chuyển object thành chuỗi JSON
+        });
+
+        const result = await res.json();
+        
+        if (res.ok) {
+            alert("✅ Đăng bài thành công!");
+            // Reset form
+            document.getElementById('title').value = "";
+            document.getElementById('summary').value = "";
+            document.getElementById('content').value = "";
+            document.getElementById('imageUrl').value = ""; 
+        } else {
+            alert("❌ Lỗi Server: " + result.message);
+        }
+    } catch (e) {
+        alert("❌ Lỗi kết nối tới Server!");
+        console.error(e);
+    }
+}
+</script>
+</body>
+</html>

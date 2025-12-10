@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đang tải nội dung...</title> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Đang tải nội dung...</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- COPY CSS CƠ BẢN TỪ INDEX SANG ĐỂ ĐỒNG BỘ --- */
+        /* --- COPY CSS CƠ BẢN TỪ HOMEPAGE SANG ĐỂ ĐỒNG BỘ --- */
         :root { --primary-red: #e60000; --text-main: #222; --text-gray: #757575; --font-serif: "Merriweather", serif; --font-sans: "Inter", sans-serif; --container-width: 1160px; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: var(--font-sans); background: #fcfcfc; color: var(--text-main); font-size: 16px; line-height: 1.6; }
@@ -15,7 +16,7 @@
         img { max-width: 100%; display: block; object-fit: cover; }
         .container { max-width: var(--container-width); margin: 0 auto; padding: 0 15px; background: #fff; }
         
-        /* HEADER & FOOTER (Giống Index) */
+        /* HEADER & FOOTER */
         header { background-color: #1a1a1a; color: #e5e5e5; padding: 12px 0; border-bottom: 2px solid #000; margin-bottom: 30px; }
         .logo-img { font-family: var(--font-serif); font-size: 28px; font-weight: 900; color: #fff; text-transform: uppercase; }
         .logo-highlight { background: linear-gradient(135deg, #ff0000, #990000); padding: 2px 6px; margin-left: 5px; border-radius: 4px; }
@@ -35,7 +36,7 @@
         /* Nội dung chính */
         .detail-summary { font-weight: 700; font-size: 18px; color: #444; margin-bottom: 25px; font-family: var(--font-serif); }
         .detail-content { font-size: 17px; color: #333; }
-        .detail-content p { margin-bottom: 20px; text-align: justify; } /* Tự động tách đoạn văn */
+        .detail-content p { margin-bottom: 20px; text-align: justify; }
         
         /* Ảnh trong bài */
         .featured-img { width: 100%; margin-bottom: 25px; border-radius: 4px; }
@@ -50,8 +51,9 @@
 
     <header>
         <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-            <a href="index.html" class="logo-img">BÁO<span class="logo-highlight">247</span></a>
-            <a href="index.html" style="font-size:13px; color:#ccc; text-transform:uppercase;">← Quay lại trang chủ</a>
+            <a href="homePage.html" class="logo-img">BÁO<span class="logo-highlight">247</span></a>
+            
+            <a href="homePage.html" style="font-size:13px; color:#ccc; text-transform:uppercase;">← Quay lại trang chủ</a>
         </div>
     </header>
 
@@ -71,7 +73,7 @@
             <img src="" id="d-img" class="featured-img" style="display:none;" onerror="this.style.display='none'">
 
             <div class="detail-content" id="d-content">
-                </div>
+            </div>
         </main>
 
         <aside>
