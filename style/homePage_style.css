@@ -52,9 +52,7 @@ ul { list-style: none; }
 @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
 .icon { width: 14px; height: 14px; fill: var(--text-meta); vertical-align: middle; }
 
-/* =================================================================
-   2. HEADER & NAVIGATION
-   ================================================================= */
+/* 2. HEADER & NAVIGATION */
 header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; top: 0; z-index: 10002; border-bottom: 2px solid #000; width: 100%; }
 .header-top { display: flex; align-items: center; justify-content: space-between; height: var(--header-top-height); padding: 15px 0; }
 .logo-img { font-family: "Merriweather", serif; font-size: 40px; font-weight: 900; color: rgb(255, 208, 0); text-transform: uppercase; }
@@ -200,14 +198,12 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
 
 .sidebar-group { margin: 0; padding: 0; border-bottom: 1px solid #2a2a2a; position: relative; }
 
-/* --- [QUAN TRỌNG] FIX MÀU MỤC "MỚI NHẤT" TRONG SIDEBAR --- */
-/* Dùng !important để ghi đè màu đỏ (color: #e60000) đang bị set cứng trong file HTML */
 .sidebar-content > a.sidebar-main-link:first-child {
     color: #e0e0e0 !important; 
     border-bottom: 1px solid #2a2a2a !important; 
     padding-bottom: 15px !important;
 }
-/* Khi hover vẫn phải hiện đỏ */
+/* Khi hover hiện đỏ */
 .sidebar-content > a.sidebar-main-link:first-child:hover {
     color: #e60000 !important; 
     background-color: #1f1f1f !important;
