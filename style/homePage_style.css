@@ -77,55 +77,54 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
     position: relative; 
 }
 
-/* --- [QUAN TRỌNG] MENU NGANG (PC) --- */
+/* --- [1] MENU NGANG (PC): THẲNG HÀNG, KHÔNG CUỘN, KHÔNG HIGHLIGHT --- */
 .nav-scroll-content { 
     display: flex; 
     align-items: center; 
     height: 100%; 
     flex-grow: 1; 
     
-    /* 1. KHÔNG CUỘN: Tắt thanh cuộn đi */
+    /* Tắt cuộn, ép thẳng hàng */
     overflow: visible; 
-    
-    /* 2. KHÔNG XUỐNG DÒNG: Ép thẳng hàng */
     white-space: nowrap; 
     flex-wrap: nowrap;
     
     padding-bottom: 0;
-    
-    /* Ẩn thanh cuộn mặc định của trình duyệt */
     scrollbar-width: none; 
     -ms-overflow-style: none;
 }
 .nav-scroll-content::-webkit-scrollbar { display: none; }
 
-/* Link Menu */
-.nav-group { 
-    position: relative; /* Điểm neo cho dropdown */
+/* Link Menu: Màu xám (#ccc) mặc định */
+.nav-group { position: relative; height: 100%; display: flex; align-items: center; flex-shrink: 0; }
+.nav-group:hover { z-index: 10005; }
+
+.nav-link { 
+    color: #ccc; 
+    font-weight: 600; 
+    font-size: 13px; 
+    padding: 0 12px; 
     height: 100%; 
     display: flex; 
     align-items: center; 
-    flex-shrink: 0; 
+    text-transform: uppercase; 
+    white-space: nowrap; 
 }
-.nav-group:hover { z-index: 10005; }
 
-.nav-link { color: #ccc; font-weight: 600; font-size: 13px; padding: 0 12px; height: 100%; display: flex; align-items: center; text-transform: uppercase; white-space: nowrap; }
+/* Hover thì trắng */
 .nav-link:hover { color: #fff; background-color: #2a2a2a; }
-.nav-link.active, .nav-link.highlight { color: #fff; font-weight: 700; }
+
+/* Chỉ mục ACTIVE mới trắng đậm, bỏ highlight */
+.nav-link.active { color: #fff; font-weight: 700; }
 
 .burger-btn { margin-left: auto; padding-left: 15px; cursor: pointer; height: 100%; display: flex; align-items: center; flex-shrink: 0; }
 
-/* --- [DROPDOWN MENU NGANG - HIỆN KHI DI CHUỘT] --- */
+/* --- [DROPDOWN MENU] --- */
 .sub-menu-stack { 
-    /* Mặc định ẩn */
     display: none; 
-    
-    /* Vị trí tuyệt đối so với .nav-group */
     position: absolute; 
     top: 100%; 
     left: 0; 
-    
-    /* Giao diện dropdown */
     width: 200px; 
     background-color: #ffffff; 
     border-top: 3px solid #e60000; 
@@ -134,14 +133,12 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
     z-index: 10005;
 }
 
-/* KHI DI CHUỘT VÀO MỤC CHA -> HIỆN MENU CON */
 .nav-group:hover .sub-menu-stack { 
     display: block; 
     animation: fadeIn 0.2s ease-in-out; 
 }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-/* Style Link trong Dropdown */
 .sub-menu-stack a { 
     display: block; 
     padding: 10px 20px; 
@@ -161,7 +158,7 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
 
 
 /* =================================================================
-   3. SIDEBAR MENU (GIỮ NGUYÊN LOGIC DỌC)
+   3. SIDEBAR MENU
    ================================================================= */
 .sidebar-menu { 
     position: fixed !important; 
@@ -184,7 +181,7 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
 .close-sidebar { font-size: 30px; cursor: pointer; color: #888; line-height: 1; padding: 0 10px; }
 .close-sidebar:hover { color: #fff; }
 
-/* Sidebar Content - Cho phép cuộn dọc */
+/* Sidebar Content & Scrollbar */
 .sidebar-content { 
     flex-grow: 1; 
     overflow-y: auto; 
@@ -195,7 +192,6 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
     scrollbar-color: transparent transparent;
     transition: scrollbar-color 0.3s;
 }
-/* Style Scrollbar Sidebar */
 .sidebar-content::-webkit-scrollbar { width: 4px; }
 .sidebar-content::-webkit-scrollbar-track { background: transparent; }
 .sidebar-content::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px; }
@@ -204,6 +200,20 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
 
 .sidebar-group { margin: 0; padding: 0; border-bottom: 1px solid #2a2a2a; position: relative; }
 
+/* --- [QUAN TRỌNG] FIX MÀU MỤC "MỚI NHẤT" TRONG SIDEBAR --- */
+/* Dùng !important để ghi đè màu đỏ (color: #e60000) đang bị set cứng trong file HTML */
+.sidebar-content > a.sidebar-main-link:first-child {
+    color: #e0e0e0 !important; 
+    border-bottom: 1px solid #2a2a2a !important; 
+    padding-bottom: 15px !important;
+}
+/* Khi hover vẫn phải hiện đỏ */
+.sidebar-content > a.sidebar-main-link:first-child:hover {
+    color: #e60000 !important; 
+    background-color: #1f1f1f !important;
+}
+
+/* Link Sidebar Chung */
 .sidebar-main-link { 
     display: block; font-weight: 700; color: #e0e0e0; text-transform: uppercase; 
     margin: 0; padding: 15px 20px; cursor: pointer; 
@@ -215,7 +225,7 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
     color: #fff; background-color: #1f1f1f; padding-left: 30px; border-left: 4px solid #e60000; 
 }
 
-/* Menu Con Sidebar (Xổ xuống) */
+/* Menu Con Sidebar */
 .sidebar-sub-links { 
     display: none; position: relative; width: 100%; 
     background: #0a0a0a; border-top: 1px solid #222;
