@@ -70,81 +70,98 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
 
 /* Navigation Bar Container */
 .nav-wrapper { background-color: #222; border-top: 1px solid #333; }
-
-/* [FIXED] Dùng min-height để container tự dãn ra chứa thanh cuộn */
 .nav-container { 
     display: flex; 
     align-items: center; 
-    min-height: var(--header-nav-height); 
-    height: auto; 
+    height: var(--header-nav-height); 
     position: relative; 
-    /* Thêm padding dưới để tránh thanh cuộn đè lên chữ */
-    padding-bottom: 5px; 
 }
 
-/* --- [1] MENU NGANG (TOP NAV) - THANH CUỘN ĐỎ --- */
+/* --- [QUAN TRỌNG] MENU NGANG (PC) --- */
 .nav-scroll-content { 
     display: flex; 
     align-items: center; 
+    height: 100%; 
     flex-grow: 1; 
     
-    /* Cho phép cuộn ngang */
-    overflow-x: auto; 
-    overflow-y: hidden;
-    white-space: nowrap;
+    /* 1. KHÔNG CUỘN: Tắt thanh cuộn đi */
+    overflow: visible; 
     
-    /* Padding bottom tạo khoảng cách cho thanh cuộn */
-    padding-bottom: 8px; 
-    /* Margin âm để cân bằng lại bố cục nếu cần */
-    margin-bottom: -4px;
+    /* 2. KHÔNG XUỐNG DÒNG: Ép thẳng hàng */
+    white-space: nowrap; 
+    flex-wrap: nowrap;
     
-    cursor: grab;
+    padding-bottom: 0;
     
-    /* Firefox: Mảnh & Ẩn mặc định */
-    scrollbar-width: thin; 
-    scrollbar-color: transparent transparent; 
+    /* Ẩn thanh cuộn mặc định của trình duyệt */
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
 }
-
-/* Chrome/Edge: Cấu hình thanh cuộn ngang */
-.nav-scroll-content::-webkit-scrollbar {
-    height: 4px; /* Độ dày thanh ngang */
-}
-.nav-scroll-content::-webkit-scrollbar-track {
-    background: transparent; 
-}
-.nav-scroll-content::-webkit-scrollbar-thumb {
-    background-color: transparent; 
-    border-radius: 4px;
-}
-
-/* HIỆU ỨNG HOVER: HIỆN THANH CUỘN ĐỎ */
-.nav-scroll-content:hover {
-    scrollbar-color: #e60000 transparent; 
-}
-.nav-scroll-content:hover::-webkit-scrollbar-thumb {
-    background-color: #e60000; 
-}
+.nav-scroll-content::-webkit-scrollbar { display: none; }
 
 /* Link Menu */
-.nav-group { position: relative; height: 100%; display: flex; align-items: center; flex-shrink: 0; }
+.nav-group { 
+    position: relative; /* Điểm neo cho dropdown */
+    height: 100%; 
+    display: flex; 
+    align-items: center; 
+    flex-shrink: 0; 
+}
 .nav-group:hover { z-index: 10005; }
+
 .nav-link { color: #ccc; font-weight: 600; font-size: 13px; padding: 0 12px; height: 100%; display: flex; align-items: center; text-transform: uppercase; white-space: nowrap; }
 .nav-link:hover { color: #fff; background-color: #2a2a2a; }
 .nav-link.active, .nav-link.highlight { color: #fff; font-weight: 700; }
 
 .burger-btn { margin-left: auto; padding-left: 15px; cursor: pointer; height: 100%; display: flex; align-items: center; flex-shrink: 0; }
 
-/* Dropdown Menu Ngang */
-.sub-menu-stack { display: none; position: absolute; top: 100%; left: 0; width: 200px; background-color: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.2); border-top: 3px solid #e60000; z-index: 10005; padding: 10px 0; }
-.nav-group:hover .sub-menu-stack { display: block; animation: fadeIn 0.2s ease-in-out; }
+/* --- [DROPDOWN MENU NGANG - HIỆN KHI DI CHUỘT] --- */
+.sub-menu-stack { 
+    /* Mặc định ẩn */
+    display: none; 
+    
+    /* Vị trí tuyệt đối so với .nav-group */
+    position: absolute; 
+    top: 100%; 
+    left: 0; 
+    
+    /* Giao diện dropdown */
+    width: 200px; 
+    background-color: #ffffff; 
+    border-top: 3px solid #e60000; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+    padding: 10px 0;
+    z-index: 10005;
+}
+
+/* KHI DI CHUỘT VÀO MỤC CHA -> HIỆN MENU CON */
+.nav-group:hover .sub-menu-stack { 
+    display: block; 
+    animation: fadeIn 0.2s ease-in-out; 
+}
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.sub-menu-stack a { display: block; padding: 8px 20px; color: #333; font-size: 13px; font-weight: 500; text-decoration: none; border-bottom: 1px dashed #eee; transition: all 0.2s; }
+
+/* Style Link trong Dropdown */
+.sub-menu-stack a { 
+    display: block; 
+    padding: 10px 20px; 
+    color: #333; 
+    font-size: 13px; 
+    font-weight: 500; 
+    text-decoration: none; 
+    border-bottom: 1px dashed #eee; 
+    transition: all 0.2s ease;
+}
 .sub-menu-stack a:last-child { border-bottom: none; }
-.sub-menu-stack a:hover { background-color: #f9f9f9; color: #e60000; padding-left: 25px; }
+.sub-menu-stack a:hover { 
+    background-color: #f9f9f9; 
+    color: #e60000; 
+    padding-left: 25px; 
+}
 
 
 /* =================================================================
-   3. SIDEBAR MENU (CÓ THANH CUỘN ĐỎ DỌC & MENU XỔ XUỐNG)
+   3. SIDEBAR MENU (GIỮ NGUYÊN LOGIC DỌC)
    ================================================================= */
 .sidebar-menu { 
     position: fixed !important; 
@@ -167,43 +184,26 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
 .close-sidebar { font-size: 30px; cursor: pointer; color: #888; line-height: 1; padding: 0 10px; }
 .close-sidebar:hover { color: #fff; }
 
-/* --- [2] SIDEBAR CONTENT & SCROLLBAR --- */
+/* Sidebar Content - Cho phép cuộn dọc */
 .sidebar-content { 
     flex-grow: 1; 
     overflow-y: auto; 
     overflow-x: hidden;
     padding: 0; 
     height: 100%; 
-    
-    /* Firefox */
     scrollbar-width: thin; 
     scrollbar-color: transparent transparent;
     transition: scrollbar-color 0.3s;
 }
-
-/* Chrome/Edge: Cấu hình thanh dọc */
-.sidebar-content::-webkit-scrollbar {
-    width: 4px; /* Thanh dọc mảnh */
-}
-.sidebar-content::-webkit-scrollbar-track {
-    background: transparent; 
-}
-.sidebar-content::-webkit-scrollbar-thumb {
-    background-color: transparent; 
-    border-radius: 10px;
-}
-
-/* HIỆU ỨNG HOVER: HIỆN THANH CUỘN ĐỎ DỌC */
-.sidebar-menu:hover .sidebar-content {
-    scrollbar-color: #e60000 transparent;
-}
-.sidebar-menu:hover .sidebar-content::-webkit-scrollbar-thumb {
-    background-color: #e60000;
-}
+/* Style Scrollbar Sidebar */
+.sidebar-content::-webkit-scrollbar { width: 4px; }
+.sidebar-content::-webkit-scrollbar-track { background: transparent; }
+.sidebar-content::-webkit-scrollbar-thumb { background-color: transparent; border-radius: 10px; }
+.sidebar-menu:hover .sidebar-content { scrollbar-color: #e60000 transparent; }
+.sidebar-menu:hover .sidebar-content::-webkit-scrollbar-thumb { background-color: #e60000; }
 
 .sidebar-group { margin: 0; padding: 0; border-bottom: 1px solid #2a2a2a; position: relative; }
 
-/* Link Chính Sidebar */
 .sidebar-main-link { 
     display: block; font-weight: 700; color: #e0e0e0; text-transform: uppercase; 
     margin: 0; padding: 15px 20px; cursor: pointer; 
@@ -211,31 +211,21 @@ header { background-color: var(--bg-header); color: #e5e5e5; position: sticky; t
     border-left: 4px solid transparent; position: relative;
 }
 .sidebar-main-link::after { display: none; }
-
-.sidebar-main-link:hover, 
-.sidebar-group:hover .sidebar-main-link { 
+.sidebar-main-link:hover, .sidebar-group:hover .sidebar-main-link { 
     color: #fff; background-color: #1f1f1f; padding-left: 30px; border-left: 4px solid #e60000; 
 }
 
-/* --- [3] MENU CON (ACCORDION) - LUÔN HIỆN KHI HOVER --- */
+/* Menu Con Sidebar (Xổ xuống) */
 .sidebar-sub-links { 
-    display: none; /* Mặc định ẩn */
-    position: relative; width: 100%; 
+    display: none; position: relative; width: 100%; 
     background: #0a0a0a; border-top: 1px solid #222;
     flex-direction: column; padding: 0; z-index: 10;
 }
-
-/* Kích hoạt khi Hover: Dùng !important để ép buộc hiển thị */
 .sidebar-group:hover .sidebar-sub-links { 
-    display: flex !important; 
-    opacity: 1 !important;
-    visibility: visible !important;
+    display: flex !important; opacity: 1 !important; visibility: visible !important;
     animation: simpleFadeIn 0.3s ease-out; 
 }
-@keyframes simpleFadeIn { 
-    from { opacity: 0; transform: translateY(-5px); } 
-    to { opacity: 1; transform: translateY(0); } 
-}
+@keyframes simpleFadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
 .sidebar-sub-links a { 
     font-size: 13px; color: #999; padding: 12px 20px 12px 40px; 
@@ -414,7 +404,12 @@ footer .logo-img { color: #ffffff !important; }
     .header-info, .header-right span, .search-box, .sub-nav { display: none !important; }
     .header-right { margin-left: auto; }
     .btn-open-login { font-size: 12px; padding: 5px 10px; }
-    .nav-container { height: 40px; }
+    
+    /* Reset lại cho Mobile */
+    .nav-container { height: 40px; min-height: 40px; } 
+    .nav-scroll-content { overflow-x: auto; white-space: nowrap; } /* Mobile vẫn cho cuộn */
+    .nav-scroll-content::-webkit-scrollbar { display: none; }
+    
     .burger-btn { padding-left: 10px; }
     .nav-link { padding: 0 8px; font-size: 12px; }
     .sidebar-menu { width: 85%; }
