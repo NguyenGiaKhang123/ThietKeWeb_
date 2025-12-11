@@ -16,7 +16,7 @@
             <div class="close-sidebar" onclick="toggleSidebar()">×</div>
         </div>
         <div class="sidebar-content">
-            <a href="homePage.html" class="sidebar-main-link" style="border-bottom: 1px dashed #eee; padding-bottom: 15px; color: #e60000;">MỚI NHẤT</a>
+            <a href="index.html" class="sidebar-main-link" style="border-bottom: 1px dashed #eee; padding-bottom: 15px; color: #e60000;">MỚI NHẤT</a>
             
             <div class="sidebar-group">
                 <a href="category.html?cat=thoisu" class="sidebar-main-link">Thời sự</a>
@@ -174,7 +174,7 @@
             <div class="header-top">
                 <div class="header-left flex-center gap-15">
                     <div style="text-align:left;">
-                        <a href="homePage.html" class="logo-img">BÁO<span class="logo-highlight">247</span></a>
+                        <a href="index.html" class="logo-img">BÁO<span class="logo-highlight">247</span></a>
                         <div style="font-size:11px; color:#aaa; margin-top:4px; letter-spacing: 0.5px;">Tin tức cập nhật từng giây</div>
                     </div>
                     <div class="header-info">
@@ -200,7 +200,7 @@
                 <div class="container">
                     <div class="nav-container">
                         <div class="nav-scroll-content">
-    <a href="homePage.html" class="nav-link highlight">MỚI NHẤT</a>
+    <a href="index.html" class="nav-link highlight">MỚI NHẤT</a>
 
     <div class="nav-group">
         <a href="category.html?cat=thoisu" class="nav-link">Thời sự</a>
@@ -389,11 +389,11 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-col">
-                    <a href="homePage.html" class="logo-img" style="font-size: 24px; display:block; margin-bottom:15px; color:var(--text-main);">
+                    <a href="index.html" class="logo-img" style="font-size: 24px; display:block; margin-bottom:15px; color:var(--text-main);">
                         BÁO<span class="logo-highlight">247</span>
                     </a>
                     <div class="footer-link-list">
-                        <a href="homePage.html">Trang chủ</a>
+                        <a href="index.html">Trang chủ</a>
                         <a href="category.html?cat=thoisu">Thời sự</a>
                         <a href="category.html?cat=thegioi">Thế giới</a>
                         <a href="category.html?cat=kinhdoanh">Kinh doanh</a>
@@ -463,14 +463,15 @@
             }
         }
 
-        const API_URL_PROFILE = 'http://localhost:4000/api';
+        const API_URL_PROFILE = 'https://thietkeweb-8kq5.onrender.com/api';
         let currentUserId = null;
 
         document.addEventListener('DOMContentLoaded', async () => {
             const userJson = localStorage.getItem('currentUser');
             if (!userJson) {
                 alert("Bạn chưa đăng nhập!");
-                window.location.href = 'homePage.html';
+                // Đã sửa
+                window.location.href = 'index.html';
                 return;
             }
             const user = JSON.parse(userJson);
@@ -563,7 +564,8 @@
                     if (res.ok) {
                         alert("Tài khoản đã xóa!");
                         localStorage.removeItem('currentUser');
-                        window.location.href = 'homePage.html';
+                        // Đã sửa
+                        window.location.href = 'index.html';
                     }
                 } catch (e) { alert("Lỗi xóa"); }
             }

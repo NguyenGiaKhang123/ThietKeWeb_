@@ -1,4 +1,4 @@
-const AUTH_API_URL = 'http://localhost:4000/api';
+const AUTH_API_URL = 'https://thietkeweb-8kq5.onrender.com/api';
 
 // --- 1. HÀM HIỂN THỊ THÔNG BÁO ---
 function showMessage(msg) {

@@ -1,6 +1,6 @@
 // script/admin_script.js
 
-const API_URL = 'http://localhost:4000/api';
+const API_URL = 'https://thietkeweb-8kq5.onrender.com/api';
 
 // --- PHẦN 1: QUẢN LÝ BÀI VIẾT ---
 

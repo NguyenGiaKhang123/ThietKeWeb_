@@ -2,7 +2,7 @@
    LOGIC XỬ LÝ TRANG CHI TIẾT (DETAIL)
    ========================================= */
 
-const DETAIL_API = 'http://localhost:4000/api';
+const DETAIL_API = 'https://thietkeweb-8kq5.onrender.com/api';
 
 document.addEventListener('DOMContentLoaded', async function() {
     // 1. Lấy ID từ URL (Ví dụ: detail.html?id=5)

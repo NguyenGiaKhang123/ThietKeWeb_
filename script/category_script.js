@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:4000/api';
+const API_URL = 'https://thietkeweb-8kq5.onrender.com/api';
 
 // Hàm sửa ảnh lỗi (Giữ nguyên)
 function fixImg(url) {
