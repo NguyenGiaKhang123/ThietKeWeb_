@@ -6,7 +6,7 @@ const multer = require('multer'); // <--- MỚI: Thư viện upload
 const path = require('path');     // <--- MỚI: Thư viện xử lý đường dẫn
 
 const app = express();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 // 1. Kết nối Database
 const db = mysql.createConnection({
