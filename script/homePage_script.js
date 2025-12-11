@@ -114,10 +114,8 @@ function renderCategorySection(allArticles, catId, displayCount = 4) {
     section.insertAdjacentHTML('beforeend', bigCardHtml + smallCardsHtml);
 }
 
-
-// ===============================================
 // --- HÀM XỬ LÝ UI (BURGER MENU, LOGIN...) ---
-// ===============================================
+
 
 function toggleSidebar() {
     const sidebarMenu = document.getElementById("sidebarMenu");
@@ -128,7 +126,6 @@ function toggleSidebar() {
     }
 }
 
-// Các hàm mở/đóng modal login vẫn giữ để hỗ trợ nút "Đăng nhập" ở Header
 function openLogin() { 
     const loginModal = document.getElementById("loginModal");
     if (loginModal) loginModal.classList.add("active"); 
@@ -139,10 +136,8 @@ function closeLogin() {
     if (loginModal) loginModal.classList.remove("active"); 
 }
 
-
-// ===============================================
 // --- CHẠY CHÍNH (MAIN) ---
-// ===============================================
+
 
 document.addEventListener('DOMContentLoaded', async function() {
     const dateNowElement = document.getElementById('date-now');
@@ -179,11 +174,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         console.error("Lỗi tải dữ liệu Trang chủ:", error);
     }
 });
-// --- HÀM 3: VẼ DANH SÁCH XEM NHIỀU (TOP ARTICLES) ---
+
 function renderTopArticles(allArticles) {
     if (!allArticles || allArticles.length === 0) return;
 
-    // Sắp xếp mô phỏng: lấy 5 bài đầu tiên (giả định là tin mới nhất cũng là tin hot)
+ 
     const topArticles = allArticles.slice(0, 5); 
     const container = document.querySelector('.rank-list'); 
 
@@ -191,8 +186,8 @@ function renderTopArticles(allArticles) {
         let html = '';
         topArticles.forEach((art, index) => {
             let rankColor = '#888';
-            if (index === 0) rankColor = '#e60000'; // Hạng 1 màu đỏ
-            else if (index === 1) rankColor = '#04284d'; // Hạng 2 màu xanh đậm
+            if (index === 0) rankColor = '#e60000'; 
+            else if (index === 1) rankColor = '#04284d'; 
             
             html += `
                 <li class="rank-item">
@@ -204,10 +199,7 @@ function renderTopArticles(allArticles) {
         container.innerHTML = html;
     }
     
-    // Xóa luôn các placeholder loading nếu có (trên trang chủ)
+   
     const skeletonList = document.querySelector('.sidebar-widget .skeleton');
     if (skeletonList) skeletonList.outerHTML = '';
 }
-// --- LƯU Ý: ĐÃ XÓA TOÀN BỘ PHẦN LOGIC AUTH Ở ĐÂY ---
-// Logic auth sẽ được xử lý hoàn toàn bởi file script/auth.js
-// để tránh xung đột sự kiện (như lỗi bấm vào tên bị đăng xuất).

@@ -127,5 +127,4 @@ async function xoaUser(id) {
 document.addEventListener('DOMContentLoaded', () => {
     taiDanhSachBaiViet();
     taiDanhSachUser();
-
 });

@@ -143,7 +143,7 @@ async function handleLogin() {
             localStorage.setItem('currentUser', JSON.stringify(data.user));
             showMessage(`Xin chào, ${data.user.username}!`);
             closeLogin();
-            checkLoginStatus(); // Cập nhật ngay giao diện
+            checkLoginStatus();
         } else {
             if(msg) msg.innerText = data.message;
         }
@@ -156,11 +156,10 @@ async function handleLogin() {
 function handleLogout() {
     if(confirm("Bạn có chắc muốn đăng xuất?")) {
         localStorage.removeItem('currentUser');
-        window.location.href = 'index.html'; // Quay về trang chủ khi logout
+        window.location.href = 'index.html'; 
     }
 }
 
-// --- QUAN TRỌNG: HÀM NÀY ĐÃ ĐƯỢC SỬA LẠI ---
 function checkLoginStatus() {
     const userJson = localStorage.getItem('currentUser');
     const btnLoginAreas = document.querySelectorAll('.header-right');
@@ -168,10 +167,8 @@ function checkLoginStatus() {
     if (userJson) {
         const user = JSON.parse(userJson);
         btnLoginAreas.forEach(area => {
-            // Tìm nút đăng nhập cũ để thay thế
             const btn = area.querySelector('.btn-open-login');
             if(btn) {
-                // Thay thế bằng HTML mới: Tách riêng Link Profile và Nút Logout
                 btn.outerHTML = `
                     <div style="display:inline-block; margin-left:10px; font-size:13px; display:flex; align-items:center;">
                         <a href="profile.html" style="font-weight:bold; color:#04284d; text-decoration:none; margin-right:5px;">
