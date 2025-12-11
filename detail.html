@@ -5,23 +5,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đang tải nội dung...</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="style/homePage_style.css">
     
     <style>
-        .detail-title { font-family: "Merriweather", serif; font-size: 36px; font-weight: 900; line-height: 1.3; margin-bottom: 15px; color: #111; }
-        .detail-meta { font-size: 14px; color: #777; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
-        .detail-summary { font-weight: 700; font-size: 18px; color: #444; margin-bottom: 25px; font-family: "Merriweather", serif; }
-        .detail-content { font-size: 17px; color: #333; line-height: 1.6; }
-        .detail-content p { margin-bottom: 20px; text-align: justify; }
-        .featured-img { width: 100%; margin-bottom: 25px; border-radius: 4px; }
-        .sidebar-title { font-weight: 700; text-transform: uppercase; border-bottom: 2px solid #e60000; margin-bottom: 15px; display: inline-block; font-size: 14px; color: #e60000; }
-        .relate-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
-        .relate-item a { font-weight: 600; font-family: "Merriweather", serif; font-size: 15px; }
-        .breadcrumb { font-size: 13px; color: #e60000; text-transform: uppercase; font-weight: 700; margin-bottom: 15px; display: block;}
+        /* Đường dẫn (Breadcrumb) */
+        .breadcrumb { 
+            font-size: 13px; 
+            color: #e60000; 
+            text-transform: uppercase; 
+            font-weight: 700; 
+            margin-bottom: 15px; 
+            display: block;
+        }
+
+        /* Tiêu đề bài viết */
+        .detail-title { 
+            font-family: "Merriweather", serif; 
+            font-size: 36px; 
+            font-weight: 900; 
+            line-height: 1.4; 
+            margin-bottom: 20px; 
+            color: #111; 
+        }
+
+        /* Thông tin meta (Tác giả, ngày) */
+        .detail-meta { 
+            font-size: 14px; 
+            color: #777; 
+            margin-bottom: 30px; 
+            padding-bottom: 15px; 
+            border-bottom: 1px solid #eee; 
+            display: flex; 
+            justify-content: space-between; 
+        }
+
+        /* Tóm tắt (Sapo) - In đậm, không thụt đầu dòng */
+        .detail-summary { 
+            font-weight: 700; 
+            font-size: 18px; 
+            color: #222; 
+            margin-bottom: 30px; 
+            font-family: "Merriweather", serif; 
+            line-height: 1.6;
+        }
+
+        /* --- NỘI DUNG CHÍNH (Đã chỉnh sửa theo yêu cầu) --- */
+        .detail-content { 
+            font-size: 18px;  /* Chữ to hơn chút cho dễ đọc */
+            color: #222; 
+            line-height: 1.8; /* Khoảng cách dòng thoáng (1.8) */
+            font-family: "Inter", sans-serif;
+        }
+
+        /* Định dạng đoạn văn */
+        .detail-content p { 
+            margin-bottom: 25px; /* Khoảng cách giữa các đoạn */
+            text-align: justify; /* Căn đều 2 bên lề */
+            text-indent: 30px;   /* Thụt đầu dòng 30px */
+        }
+
+        /* Định dạng ảnh trong bài */
+        .detail-content img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 30px auto; /* Canh giữa ảnh */
+            border-radius: 4px;
+        }
+        
+        /* Chú thích ảnh (nếu có) */
+        .detail-content em, .detail-content figcaption {
+            display: block;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            margin-top: -20px;
+            margin-bottom: 30px;
+            background: #f9f9f9;
+            padding: 8px;
+        }
+
+        /* Ảnh đại diện bài viết */
+        .featured-img { 
+            width: 100%; 
+            margin-bottom: 30px; 
+            border-radius: 4px; 
+            object-fit: cover;
+        }
+
+        /* Sidebar */
+        .sidebar-title { 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            border-bottom: 2px solid #e60000; 
+            margin-bottom: 15px; 
+            display: inline-block; 
+            font-size: 14px; 
+            color: #e60000; 
+        }
+        .relate-item { 
+            margin-bottom: 15px; 
+            padding-bottom: 15px; 
+            border-bottom: 1px dashed #eee; 
+        }
+        .relate-item a { 
+            font-weight: 600; 
+            font-family: "Merriweather", serif; 
+            font-size: 15px; 
+            line-height: 1.4;
+            color: #333;
+            transition: color 0.2s;
+        }
+        .relate-item a:hover { color: #e60000; }
     </style>
 </head>
 <body>
 
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div class="sidebar-menu" id="sidebarMenu">
+        <div class="sidebar-header">
+            <h3>Tất cả chuyên mục</h3>
+            <div class="close-sidebar" onclick="toggleSidebar()">×</div>
+        </div>
+        <div class="sidebar-content">
+            <a href="homePage.html" class="sidebar-main-link">MỚI NHẤT</a>
+            
+            <div class="sidebar-group">
+                <a href="category.html?cat=thoisu" class="sidebar-main-link">Thời sự</a>
+                <div class="sidebar-sub-links">
+                    <a href="#">Chính trị</a>
+                    <a href="#">Dân sinh</a>
+                    <a href="#">Lao động - Việc làm</a>
+                    <a href="#">Giao thông</a>
+                    <a href="#">Mê Kông</a>
+                </div>
+            </div>
+            <div class="sidebar-group">
+                <a href="category.html?cat=thegioi" class="sidebar-main-link">Thế giới</a>
+                <div class="sidebar-sub-links">
+                    <a href="#">Tư liệu</a>
+                    <a href="#">Phân tích</a>
+                    <a href="#">Người Việt 5 châu</a>
+                    <a href="#">Quân sự</a>
+                </div>
+            </div>
+            <div class="sidebar-group">
+                <a href="category.html?cat=kinhdoanh" class="sidebar-main-link">Kinh doanh</a>
+                <div class="sidebar-sub-links">
+                    <a href="#">Quốc tế</a>
+                    <a href="#">Doanh nghiệp</a>
+                    <a href="#">Chứng khoán</a>
+                </div>
+            </div>
+            <div class="sidebar-group"><a href="category.html?cat=congnghe" class="sidebar-main-link">Công nghệ</a></div>
+            <div class="sidebar-group"><a href="category.html?cat=thethao" class="sidebar-main-link">Thể thao</a></div>
+            <div class="sidebar-group"><a href="category.html?cat=giaitri" class="sidebar-main-link">Giải trí</a></div>
+            <div class="sidebar-group"><a href="category.html?cat=suckhoe" class="sidebar-main-link">Sức khỏe</a></div>
+            <div class="sidebar-group"><a href="category.html?cat=giaoduc" class="sidebar-main-link">Giáo dục</a></div>
+            <div class="sidebar-group"><a href="category.html?cat=dulich" class="sidebar-main-link">Du lịch</a></div>
+            <div class="sidebar-group"><a href="category.html?cat=gocnhin" class="sidebar-main-link">Góc nhìn</a></div>
+            <div class="sidebar-group"><a href="category.html?cat=thugian" class="sidebar-main-link">Thư giãn</a></div>
+        </div>
+    </div>
 
     <div class="modal-overlay" id="loginModal">
         <div class="login-box">
@@ -57,7 +204,7 @@
                     </div>
                     <div class="header-info">
                         <span>TP HCM <svg class="icon" viewBox="0 0 24 24" style="fill:#ccc;width:10px;"><path d="M7 10l5 5 5-5z"/></svg></span>
-                        <span style="display:flex; align-items:center; gap:5px;"><svg class="icon" viewBox="0 0 24 24" style="fill:#ccc"><path d="M19.36 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.64-4.96z"/></svg> 23°</span>
+                        <span style="display:flex; align-items:center; gap:5px;">23°</span>
                         <span style="color:#444">|</span>
                         <span id="date-now">Thứ ba, 9/12/2025</span>
                     </div>
@@ -78,101 +225,110 @@
                 <div class="container">
                     <div class="nav-container">
                         <div class="nav-scroll-content">
-    <a href="homePage.html" class="nav-link highlight">MỚI NHẤT</a>
+                            <a href="homePage.html" class="nav-link">MỚI NHẤT</a>
 
-    <div class="nav-group">
-        <a href="category.html?cat=thoisu" class="nav-link">Thời sự</a>
-        <div class="sub-menu-stack">
-            <a href="#">Chính trị</a>
-            <a href="#">Dân sinh</a>
-            <a href="#">Lao động - Việc làm</a>
-            <a href="#">Giao thông</a>
-            <a href="#">Mê Kông</a>
-        </div>
-    </div>
+                            <div class="nav-group">
+                                <a href="category.html?cat=thoisu" class="nav-link">Thời sự</a>
+                                <div class="sub-menu-stack">
+                                    <a href="#">Chính trị</a>
+                                    <a href="#">Dân sinh</a>
+                                    <a href="#">Lao động - Việc làm</a>
+                                    <a href="#">Giao thông</a>
+                                    <a href="#">Mê Kông</a>
+                                </div>
+                            </div>
 
-    <div class="nav-group">
-        <a href="category.html?cat=thegioi" class="nav-link">Thế giới</a>
-        <div class="sub-menu-stack">
-            <a href="#">Tư liệu</a>
-            <a href="#">Phân tích</a>
-            <a href="#">Người Việt 5 châu</a>
-            <a href="#">Quân sự</a>
-        </div>
-    </div>
+                            <div class="nav-group">
+                                <a href="category.html?cat=thegioi" class="nav-link">Thế giới</a>
+                                <div class="sub-menu-stack">
+                                    <a href="#">Tư liệu</a>
+                                    <a href="#">Phân tích</a>
+                                    <a href="#">Người Việt 5 châu</a>
+                                    <a href="#">Quân sự</a>
+                                </div>
+                            </div>
 
-    <div class="nav-group">
-        <a href="category.html?cat=kinhdoanh" class="nav-link">Kinh doanh</a>
-        <div class="sub-menu-stack">
-            <a href="#">Quốc tế</a>
-            <a href="#">Doanh nghiệp</a>
-            <a href="#">Chứng khoán</a>
-            <a href="#">Bất động sản</a>
-            <a href="#">E-commerce</a>
-        </div>
-    </div>
+                            <div class="nav-group">
+                                <a href="category.html?cat=kinhdoanh" class="nav-link">Kinh doanh</a>
+                                <div class="sub-menu-stack">
+                                    <a href="#">Quốc tế</a>
+                                    <a href="#">Doanh nghiệp</a>
+                                    <a href="#">Chứng khoán</a>
+                                    <a href="#">Bất động sản</a>
+                                    <a href="#">E-commerce</a>
+                                </div>
+                            </div>
 
-    <div class="nav-group">
-        <a href="category.html?cat=congnghe" class="nav-link">Công nghệ</a>
-        <div class="sub-menu-stack">
-            <a href="#">Khoa học</a>
-            <a href="#">Số hóa</a>
-            <a href="#">AI</a>
-            <a href="#">Startup</a>
-        </div>
-    </div>
+                            <div class="nav-group">
+                                <a href="category.html?cat=congnghe" class="nav-link">Công nghệ</a>
+                                <div class="sub-menu-stack">
+                                    <a href="#">Khoa học</a>
+                                    <a href="#">Số hóa</a>
+                                    <a href="#">AI</a>
+                                    <a href="#">Startup</a>
+                                </div>
+                            </div>
 
-    <div class="nav-group">
-        <a href="category.html?cat=thethao" class="nav-link">Thể thao</a>
-        <div class="sub-menu-stack">
-            <a href="#">Bóng đá VN</a>
-            <a href="#">Bóng đá Quốc tế</a>
-            <a href="#">Tennis</a>
-            <a href="#">Marathon</a>
-        </div>
-    </div>
+                            <div class="nav-group">
+                                <a href="category.html?cat=thethao" class="nav-link">Thể thao</a>
+                                <div class="sub-menu-stack">
+                                    <a href="#">Bóng đá VN</a>
+                                    <a href="#">Bóng đá Quốc tế</a>
+                                    <a href="#">Tennis</a>
+                                    <a href="#">Marathon</a>
+                                </div>
+                            </div>
 
-    <div class="nav-group">
-        <a href="category.html?cat=giaitri" class="nav-link">Giải trí</a>
-        <div class="sub-menu-stack">
-            <a href="#">Giới sao</a>
-            <a href="#">Phim ảnh</a>
-            <a href="#">Âm nhạc</a>
-            <a href="#">Thời trang</a>
-        </div>
-    </div>
+                            <div class="nav-group">
+                                <a href="category.html?cat=giaitri" class="nav-link">Giải trí</a>
+                                <div class="sub-menu-stack">
+                                    <a href="#">Giới sao</a>
+                                    <a href="#">Phim ảnh</a>
+                                    <a href="#">Âm nhạc</a>
+                                    <a href="#">Thời trang</a>
+                                </div>
+                            </div>
 
-    <div class="nav-group">
-        <a href="category.html?cat=suckhoe" class="nav-link">Sức khoẻ</a>
-        <div class="sub-menu-stack">
-            <a href="#">Tin tức</a>
-            <a href="#">Dinh dưỡng</a>
-            <a href="#">Khỏe đẹp</a>
-            <a href="#">Tư vấn</a>
-        </div>
-    </div>
+                            <div class="nav-group">
+                                <a href="category.html?cat=suckhoe" class="nav-link">Sức khoẻ</a>
+                                <div class="sub-menu-stack">
+                                    <a href="#">Tin tức</a>
+                                    <a href="#">Dinh dưỡng</a>
+                                    <a href="#">Khỏe đẹp</a>
+                                    <a href="#">Tư vấn</a>
+                                </div>
+                            </div>
 
-    <div class="nav-group">
-        <a href="category.html?cat=giaoduc" class="nav-link">Giáo dục</a>
-        <div class="sub-menu-stack">
-            <a href="#">Tuyển sinh</a>
-            <a href="#">Du học</a>
-            <a href="#">Học tiếng Anh</a>
-        </div>
-    </div>
+                            <div class="nav-group">
+                                <a href="category.html?cat=giaoduc" class="nav-link">Giáo dục</a>
+                                <div class="sub-menu-stack">
+                                    <a href="#">Tuyển sinh</a>
+                                    <a href="#">Du học</a>
+                                    <a href="#">Học tiếng Anh</a>
+                                </div>
+                            </div>
 
-    <div class="nav-group">
-        <a href="category.html?cat=dulich" class="nav-link">Du lịch</a>
-        <div class="sub-menu-stack">
-            <a href="#">Điểm đến</a>
-            <a href="#">Ẩm thực</a>
-            <a href="#">Tư vấn</a>
-        </div>
-    </div>
+                            <div class="nav-group">
+                                <a href="category.html?cat=dulich" class="nav-link">Du lịch</a>
+                                <div class="sub-menu-stack">
+                                    <a href="#">Điểm đến</a>
+                                    <a href="#">Ẩm thực</a>
+                                    <a href="#">Tư vấn</a>
+                                </div>
+                            </div>
 
-    <div class="nav-group"><a href="category.html?cat=gocnhin" class="nav-link">Góc nhìn</a></div>
-    <div class="nav-group"><a href="category.html?cat=thugian" class="nav-link">Thư giãn</a></div>
-</div>
+                            <div class="nav-group"><a href="category.html?cat=gocnhin" class="nav-link">Góc nhìn</a></div>
+                            
+                            <div class="nav-group">
+                                <a href="category.html?cat=thugian" class="nav-link">Thư giãn</a>
+                                <div class="sub-menu-stack">
+                                    <a href="#">Cười</a>
+                                    <a href="#">Đố vui</a>
+                                    <a href="#">Chuyện lạ</a>
+                                    <a href="#">Trắc nghiệm</a>
+                                </div>
+                            </div>
+                        </div>
                         <div class="burger-btn" onclick="toggleSidebar()">
                             <svg width="24" height="24" fill="#ccc" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
                         </div>
@@ -185,13 +341,18 @@
     <div class="container layout-split" style="margin-top: 30px;">
         <main>
             <div class="breadcrumb" id="d-category">Tin tức</div>
+            
             <h1 class="detail-title" id="d-title">Đang tải bài viết...</h1>
+            
             <div class="detail-meta">
                 <span>Tác giả: <b id="d-author">Tòa soạn</b></span>
                 <span id="d-date">...</span>
             </div>
+            
             <div class="detail-summary" id="d-summary"></div>
+            
             <img src="" id="d-img" class="featured-img" style="display:none;" onerror="this.style.display='none'">
+            
             <div class="detail-content" id="d-content"></div>
         </main>
 
@@ -200,7 +361,11 @@
             <div class="relate-item"><a href="#">Giá vàng hôm nay tiếp tục phá đỉnh lịch sử</a></div>
             <div class="relate-item"><a href="#">Dự báo thời tiết: Miền Bắc đón không khí lạnh</a></div>
             <div class="relate-item"><a href="#">Công nghệ AI thay đổi thế giới ra sao?</a></div>
-            <div style="margin-top:20px; background:#f0f0f0; height:300px; display:flex; align-items:center; justify-content:center; color:#999;">QUẢNG CÁO</div>
+            <div class="relate-item"><a href="#">Bất động sản cuối năm: Cơ hội hay rủi ro?</a></div>
+            
+            <div style="margin-top:20px; background:#f0f0f0; height:300px; display:flex; align-items:center; justify-content:center; color:#999; border-radius: 4px;">
+                QUẢNG CÁO
+            </div>
         </aside>
     </div>
 
@@ -271,7 +436,9 @@
         </div>
     </footer>
 
-    <script src="main.js"></script>
     <script src="script/auth.js"></script>
+    <script src="script/homePage_script.js"></script>
+    <script src="main.js"></script>
+
 </body>
 </html>

@@ -2,7 +2,7 @@
    LOGIC XỬ LÝ TRANG CHI TIẾT (DETAIL)
    ========================================= */
 
-const API_URL = 'http://localhost:4000/api';
+const DETAIL_API = 'http://localhost:4000/api';
 
 document.addEventListener('DOMContentLoaded', async function() {
     // 1. Lấy ID từ URL (Ví dụ: detail.html?id=5)
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     try {
         // 2. Gọi API lấy chi tiết bài viết từ Server
-        const res = await fetch(`${API_URL}/articles/${baivietId}`);
+        const res = await fetch(`${DETAIL_API}/articles/${baivietId}`);
         
         if (!res.ok) {
             throw new Error("Bài viết không tồn tại hoặc đã bị xóa.");
@@ -37,7 +37,19 @@ document.addEventListener('DOMContentLoaded', async function() {
         document.getElementById('d-date').innerText = new Date(baiViet.created_at).toLocaleString('vi-VN');
         
         // Xử lý nội dung (HTML)
-        document.getElementById('d-content').innerHTML = baiViet.content;
+        let noiDung = baiViet.content || '';
+        if (noiDung.indexOf('<p>') === -1) {
+    
+            let cacDoanVan = noiDung.split('\n');
+    
+    
+            noiDung = cacDoanVan
+                .filter(doan => doan.trim() !== '') 
+                .map(doan => `<p>${doan}</p>`)      
+                .join('');
+        }
+
+document.getElementById('d-content').innerHTML = noiDung;
 
         // Xử lý ảnh
         const imgElement = document.getElementById('d-img');
