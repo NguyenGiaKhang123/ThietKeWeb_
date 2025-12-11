@@ -173,11 +173,41 @@ document.addEventListener('DOMContentLoaded', async function() {
         renderCategorySection(allArticles, 'giaoduc');
         renderCategorySection(allArticles, 'dulich');
 
+        renderTopArticles(allArticles);
+
     } catch (error) {
         console.error("Lỗi tải dữ liệu Trang chủ:", error);
     }
 });
+// --- HÀM 3: VẼ DANH SÁCH XEM NHIỀU (TOP ARTICLES) ---
+function renderTopArticles(allArticles) {
+    if (!allArticles || allArticles.length === 0) return;
 
+    // Sắp xếp mô phỏng: lấy 5 bài đầu tiên (giả định là tin mới nhất cũng là tin hot)
+    const topArticles = allArticles.slice(0, 5); 
+    const container = document.querySelector('.rank-list'); 
+
+    if (container) {
+        let html = '';
+        topArticles.forEach((art, index) => {
+            let rankColor = '#888';
+            if (index === 0) rankColor = '#e60000'; // Hạng 1 màu đỏ
+            else if (index === 1) rankColor = '#04284d'; // Hạng 2 màu xanh đậm
+            
+            html += `
+                <li class="rank-item">
+                    <span class="rank-num" style="color:${rankColor}; font-weight:bold; font-size:20px;">${index + 1}</span>
+                    <a href="detail.html?id=${art.id}" class="rank-link">${art.title}</a>
+                </li>
+            `;
+        });
+        container.innerHTML = html;
+    }
+    
+    // Xóa luôn các placeholder loading nếu có (trên trang chủ)
+    const skeletonList = document.querySelector('.sidebar-widget .skeleton');
+    if (skeletonList) skeletonList.outerHTML = '';
+}
 // --- LƯU Ý: ĐÃ XÓA TOÀN BỘ PHẦN LOGIC AUTH Ở ĐÂY ---
 // Logic auth sẽ được xử lý hoàn toàn bởi file script/auth.js
 // để tránh xung đột sự kiện (như lỗi bấm vào tên bị đăng xuất).
