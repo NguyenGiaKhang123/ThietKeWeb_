@@ -33,7 +33,7 @@ function renderVedette(articles) {
     if (!articles || articles.length === 0) return;
 
     const latest = articles[0]; 
-    const sub = articles.slice(1, 5);
+    const sub = articles.slice(1, 6);
 
     const mainContainer = document.querySelector('.vedette-main');
     const subContainer = document.querySelector('.sub-vedette');
@@ -203,3 +203,4 @@ function renderTopArticles(allArticles) {
     const skeletonList = document.querySelector('.sidebar-widget .skeleton');
     if (skeletonList) skeletonList.outerHTML = '';
 }
+
