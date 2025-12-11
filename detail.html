@@ -5,75 +5,194 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đang tải nội dung...</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/homePage_style.css">
     
     <style>
-        /* --- COPY CSS CƠ BẢN TỪ HOMEPAGE SANG ĐỂ ĐỒNG BỘ --- */
-        :root { --primary-red: #e60000; --text-main: #222; --text-gray: #757575; --font-serif: "Merriweather", serif; --font-sans: "Inter", sans-serif; --container-width: 1160px; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: var(--font-sans); background: #fcfcfc; color: var(--text-main); font-size: 16px; line-height: 1.6; }
-        a { text-decoration: none; color: inherit; transition: color 0.2s; }
-        a:hover { color: var(--primary-red); }
-        img { max-width: 100%; display: block; object-fit: cover; }
-        .container { max-width: var(--container-width); margin: 0 auto; padding: 0 15px; background: #fff; }
-        
-        /* HEADER & FOOTER */
-        header { background-color: #1a1a1a; color: #e5e5e5; padding: 12px 0; border-bottom: 2px solid #000; margin-bottom: 30px; }
-        .logo-img { font-family: var(--font-serif); font-size: 28px; font-weight: 900; color: #fff; text-transform: uppercase; }
-        .logo-highlight { background: linear-gradient(135deg, #ff0000, #990000); padding: 2px 6px; margin-left: 5px; border-radius: 4px; }
-        footer { border-top: 4px solid #e5e5e5; background: #fff; padding: 40px 0; margin-top: 50px; text-align: center; color: #666; font-size: 14px; }
-
-        /* --- CSS RIÊNG CHO TRANG DETAIL --- */
-        .layout-detail { display: grid; grid-template-columns: 2.5fr 1fr; gap: 40px; }
-        
-        /* Breadcrumb (Đường dẫn) */
-        .breadcrumb { font-size: 13px; color: var(--primary-red); text-transform: uppercase; font-weight: 700; margin-bottom: 15px; }
-        .breadcrumb span { color: #999; margin: 0 5px; }
-
-        /* Tiêu đề & Meta */
-        .detail-title { font-family: var(--font-serif); font-size: 36px; font-weight: 900; line-height: 1.3; margin-bottom: 15px; color: #111; }
+        .detail-title { font-family: "Merriweather", serif; font-size: 36px; font-weight: 900; line-height: 1.3; margin-bottom: 15px; color: #111; }
         .detail-meta { font-size: 14px; color: #777; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; }
-        
-        /* Nội dung chính */
-        .detail-summary { font-weight: 700; font-size: 18px; color: #444; margin-bottom: 25px; font-family: var(--font-serif); }
-        .detail-content { font-size: 17px; color: #333; }
+        .detail-summary { font-weight: 700; font-size: 18px; color: #444; margin-bottom: 25px; font-family: "Merriweather", serif; }
+        .detail-content { font-size: 17px; color: #333; line-height: 1.6; }
         .detail-content p { margin-bottom: 20px; text-align: justify; }
-        
-        /* Ảnh trong bài */
         .featured-img { width: 100%; margin-bottom: 25px; border-radius: 4px; }
-
-        /* Sidebar */
-        .sidebar-title { font-weight: 700; text-transform: uppercase; border-bottom: 2px solid var(--primary-red); margin-bottom: 15px; display: inline-block; font-size: 14px; }
+        .sidebar-title { font-weight: 700; text-transform: uppercase; border-bottom: 2px solid #e60000; margin-bottom: 15px; display: inline-block; font-size: 14px; color: #e60000; }
         .relate-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
-        .relate-item a { font-weight: 600; font-family: var(--font-serif); font-size: 15px; }
+        .relate-item a { font-weight: 600; font-family: "Merriweather", serif; font-size: 15px; }
+        .breadcrumb { font-size: 13px; color: #e60000; text-transform: uppercase; font-weight: 700; margin-bottom: 15px; display: block;}
     </style>
 </head>
 <body>
 
+
+    <div class="modal-overlay" id="loginModal">
+        <div class="login-box">
+            <div class="close-btn" onclick="closeLogin()" style="float:right; cursor:pointer; font-size:24px;">×</div>
+            <div class="auth-tabs" style="display:flex; margin-bottom:20px; border-bottom:1px solid #ddd;">
+                <div class="auth-tab active" id="tab-login" onclick="switchTab('login')" style="flex:1; text-align:center; padding:10px; cursor:pointer; font-weight:bold; border-bottom:2px solid #e60000; color:#e60000;">Đăng nhập</div>
+                <div class="auth-tab" id="tab-register" onclick="switchTab('register')" style="flex:1; text-align:center; padding:10px; cursor:pointer; color:#666;">Đăng ký</div>
+            </div>
+            <form id="form-login">
+                <h3 style="margin-bottom:15px; text-align:center;">Chào mừng trở lại!</h3>
+                <div class="form-group"><input type="text" id="login-input" class="form-input" placeholder="Email hoặc tên đăng nhập" required></div>
+                <div class="form-group"><input type="password" id="login-pass" class="form-input" placeholder="Mật khẩu" required></div>
+                <button type="button" class="btn-login" onclick="handleLogin()">ĐĂNG NHẬP</button>
+            </form>
+            <form id="form-register" style="display:none;">
+                <h3 style="margin-bottom:15px; text-align:center;">Tạo tài khoản mới</h3>
+                <div class="form-group"><input type="text" id="reg-username" class="form-input" placeholder="Tên đăng nhập" required></div>
+                <div class="form-group"><input type="email" id="reg-email" class="form-input" placeholder="Email" required></div>
+                <div class="form-group"><input type="password" id="reg-pass" class="form-input" placeholder="Mật khẩu" required></div>
+                <button type="button" class="btn-login" onclick="handleRegister()" style="background:#04284d;">ĐĂNG KÝ</button>
+            </form>
+            <div id="auth-message" style="margin-top:15px; text-align:center; color:red; font-size:13px;"></div>
+        </div>
+    </div>
+
     <header>
-        <div class="container" style="display:flex; justify-content:space-between; align-items:center;">
-            <a href="homePage.html" class="logo-img">BÁO<span class="logo-highlight">247</span></a>
+        <div class="container">
+            <div class="header-top">
+                <div class="header-left flex-center gap-15">
+                    <div style="text-align:left;">
+                        <a href="homePage.html" class="logo-img">BÁO<span class="logo-highlight">247</span></a>
+                        <div style="font-size:11px; color:#aaa; margin-top:4px; letter-spacing: 0.5px;">Tin tức cập nhật từng giây</div>
+                    </div>
+                    <div class="header-info">
+                        <span>TP HCM <svg class="icon" viewBox="0 0 24 24" style="fill:#ccc;width:10px;"><path d="M7 10l5 5 5-5z"/></svg></span>
+                        <span style="display:flex; align-items:center; gap:5px;"><svg class="icon" viewBox="0 0 24 24" style="fill:#ccc"><path d="M19.36 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.64-4.96z"/></svg> 23°</span>
+                        <span style="color:#444">|</span>
+                        <span id="date-now">Thứ ba, 9/12/2025</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <a href="#" class="text-gray">Mới nhất</a> <span style="color:#444">|</span>
+                    <a href="#" class="text-gray">Tin theo khu vực</a> <span style="color:#444">|</span>
+                    <a href="#" style="border:1px solid #444; padding:2px 6px; border-radius:3px;">International</a>
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Tìm kiếm">
+                        <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+                    </div>
+                    <a href="javascript:void(0)" class="btn-open-login" onclick="openLogin()">Đăng nhập</a>
+                </div>
+            </div>
             
-            <a href="homePage.html" style="font-size:13px; color:#ccc; text-transform:uppercase;">← Quay lại trang chủ</a>
+            <div class="nav-wrapper">
+                <div class="container">
+                    <div class="nav-container">
+                        <div class="nav-scroll-content">
+    <a href="homePage.html" class="nav-link highlight">MỚI NHẤT</a>
+
+    <div class="nav-group">
+        <a href="category.html?cat=thoisu" class="nav-link">Thời sự</a>
+        <div class="sub-menu-stack">
+            <a href="#">Chính trị</a>
+            <a href="#">Dân sinh</a>
+            <a href="#">Lao động - Việc làm</a>
+            <a href="#">Giao thông</a>
+            <a href="#">Mê Kông</a>
+        </div>
+    </div>
+
+    <div class="nav-group">
+        <a href="category.html?cat=thegioi" class="nav-link">Thế giới</a>
+        <div class="sub-menu-stack">
+            <a href="#">Tư liệu</a>
+            <a href="#">Phân tích</a>
+            <a href="#">Người Việt 5 châu</a>
+            <a href="#">Quân sự</a>
+        </div>
+    </div>
+
+    <div class="nav-group">
+        <a href="category.html?cat=kinhdoanh" class="nav-link">Kinh doanh</a>
+        <div class="sub-menu-stack">
+            <a href="#">Quốc tế</a>
+            <a href="#">Doanh nghiệp</a>
+            <a href="#">Chứng khoán</a>
+            <a href="#">Bất động sản</a>
+            <a href="#">E-commerce</a>
+        </div>
+    </div>
+
+    <div class="nav-group">
+        <a href="category.html?cat=congnghe" class="nav-link">Công nghệ</a>
+        <div class="sub-menu-stack">
+            <a href="#">Khoa học</a>
+            <a href="#">Số hóa</a>
+            <a href="#">AI</a>
+            <a href="#">Startup</a>
+        </div>
+    </div>
+
+    <div class="nav-group">
+        <a href="category.html?cat=thethao" class="nav-link">Thể thao</a>
+        <div class="sub-menu-stack">
+            <a href="#">Bóng đá VN</a>
+            <a href="#">Bóng đá Quốc tế</a>
+            <a href="#">Tennis</a>
+            <a href="#">Marathon</a>
+        </div>
+    </div>
+
+    <div class="nav-group">
+        <a href="category.html?cat=giaitri" class="nav-link">Giải trí</a>
+        <div class="sub-menu-stack">
+            <a href="#">Giới sao</a>
+            <a href="#">Phim ảnh</a>
+            <a href="#">Âm nhạc</a>
+            <a href="#">Thời trang</a>
+        </div>
+    </div>
+
+    <div class="nav-group">
+        <a href="category.html?cat=suckhoe" class="nav-link">Sức khoẻ</a>
+        <div class="sub-menu-stack">
+            <a href="#">Tin tức</a>
+            <a href="#">Dinh dưỡng</a>
+            <a href="#">Khỏe đẹp</a>
+            <a href="#">Tư vấn</a>
+        </div>
+    </div>
+
+    <div class="nav-group">
+        <a href="category.html?cat=giaoduc" class="nav-link">Giáo dục</a>
+        <div class="sub-menu-stack">
+            <a href="#">Tuyển sinh</a>
+            <a href="#">Du học</a>
+            <a href="#">Học tiếng Anh</a>
+        </div>
+    </div>
+
+    <div class="nav-group">
+        <a href="category.html?cat=dulich" class="nav-link">Du lịch</a>
+        <div class="sub-menu-stack">
+            <a href="#">Điểm đến</a>
+            <a href="#">Ẩm thực</a>
+            <a href="#">Tư vấn</a>
+        </div>
+    </div>
+
+    <div class="nav-group"><a href="category.html?cat=gocnhin" class="nav-link">Góc nhìn</a></div>
+    <div class="nav-group"><a href="category.html?cat=thugian" class="nav-link">Thư giãn</a></div>
+</div>
+                        <div class="burger-btn" onclick="toggleSidebar()">
+                            <svg width="24" height="24" fill="#ccc" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
-    <div class="container layout-detail">
+    <div class="container layout-split" style="margin-top: 30px;">
         <main>
             <div class="breadcrumb" id="d-category">Tin tức</div>
-            
             <h1 class="detail-title" id="d-title">Đang tải bài viết...</h1>
-            
             <div class="detail-meta">
                 <span>Tác giả: <b id="d-author">Tòa soạn</b></span>
                 <span id="d-date">...</span>
             </div>
-
             <div class="detail-summary" id="d-summary"></div>
-
             <img src="" id="d-img" class="featured-img" style="display:none;" onerror="this.style.display='none'">
-
-            <div class="detail-content" id="d-content">
-            </div>
+            <div class="detail-content" id="d-content"></div>
         </main>
 
         <aside>
@@ -86,9 +205,73 @@
     </div>
 
     <footer>
-        <div class="container">© 2025 Báo điện tử 247.</div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <a href="homePage.html" class="logo-img" style="font-size: 24px; display:block; margin-bottom:15px; color:var(--text-main);">
+                        BÁO<span class="logo-highlight">247</span>
+                    </a>
+                    <div class="footer-link-list">
+                        <a href="homePage.html">Trang chủ</a>
+                        <a href="category.html?cat=thoisu">Thời sự</a>
+                        <a href="category.html?cat=thegioi">Thế giới</a>
+                        <a href="category.html?cat=kinhdoanh">Kinh doanh</a>
+                        <a href="category.html?cat=gocnhin">Góc nhìn</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Chuyên mục</h4>
+                    <div class="footer-link-list">
+                        <a href="category.html?cat=congnghe">Khoa học & Công nghệ</a>
+                        <a href="category.html?cat=thethao">Thể thao</a>
+                        <a href="category.html?cat=giaitri">Giải trí</a>
+                        <a href="category.html?cat=suckhoe">Sức khỏe</a>
+                        <a href="category.html?cat=giaoduc">Giáo dục</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Thông tin & Tiện ích</h4>
+                    <div class="footer-link-list">
+                        <a href="category.html?cat=dulich">Du lịch</a>
+                        <a href="category.html?cat=thugian">Thư giãn</a>
+                        <a href="#">Rao vặt</a>
+                        <a href="#">Startup</a>
+                        <a href="#">Ảnh & Video</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Tải ứng dụng</h4>
+                    <div class="app-buttons">
+                        <a href="#" class="app-btn">Android</a>
+                        <a href="#" class="app-btn">App Store</a>
+                    </div>
+                    <h4>Liên kết</h4>
+                    <div style="display:flex; gap:15px; color:#757575;">
+                        <a href="#">Facebook</a> <a href="#">Youtube</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="license-info">
+                    <p><strong>Báo điện tử 247</strong></p>
+                    <p>Cơ quan chủ quản: Bộ Thông tin và Truyền thông</p>
+                    <p>Giấy phép số: 08/GP-BTTTT cấp ngày 09/12/2025</p>
+                    <p>Tổng biên tập: <strong>Nguyễn Văn A</strong></p>
+                    <p style="margin-top:10px; font-size:12px; color:#999;">© 1997-2025. Toàn bộ bản quyền thuộc về Báo 247.</p>
+                </div>
+                <div class="contact-info">
+                    <p>Quảng cáo: <strong>0909.xxx.xxx</strong></p>
+                    <p>Email: <a href="mailto:ads@bao247.vn">ads@bao247.vn</a></p>
+                    <div style="margin-top: 15px;">
+                        <span style="display:block; font-size:12px;">Hotline 24/7</span>
+                        <a href="tel:0909123456" class="contact-hotline">0909.123.456</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script src="main.js"></script>
+    <script src="script/auth.js"></script>
 </body>
 </html>

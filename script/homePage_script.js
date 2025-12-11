@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:4000/api'; // Đảm bảo đúng cổng Server
+const API_URL = 'http://localhost:4000/api';
 
 // Hàm sửa ảnh lỗi
 function fixImg(url) {
@@ -13,146 +13,171 @@ function formatDate(dateString) {
     return `${date.getDate()}/${date.getMonth() + 1}`;
 }
 
-// --- HÀM CHÍNH: TẢI VÀ CHIA BÀI VIẾT ---
-async function initHomePage() {
-    try {
-        const res = await fetch(`${API_URL}/articles`);
-        const articles = await res.json();
+// Map tên hiển thị
+const categoryNames = {
+    'thoisu': 'Thời sự',
+    'thegioi': 'Thế giới',
+    'kinhdoanh': 'Kinh doanh',
+    'congnghe': 'Công nghệ',
+    'thethao': 'Thể thao',
+    'giaitri': 'Giải trí',
+    'suckhoe': 'Sức khỏe',
+    'giaoduc': 'Giáo dục',
+    'dulich': 'Du lịch',
+    'gocnhin': 'Góc nhìn',
+    'thugian': 'Thư giãn'
+};
 
-        if (!articles || articles.length === 0) return;
-
-        // 1. Xử lý phần Vedette (Lấy bài mới nhất)
-        renderVedette(articles);
-
-        document.querySelector('.vedette-main').innerHTML = `
-        <a href="detail.html?id=${latest.id}" class="thumb-wrapper">
-            <img src="${fixImg(latest.image_url)}" 
-                 alt="${latest.title}" 
-                 onerror="this.src='https://placehold.co/800x400?text=Anh+Loi+Link'">
-        </a>
-        <h1 class="title-serif"><a href="detail.html?id=${latest.id}">${latest.title}</a></h1>
-        <p class="desc">${latest.summary || ''}</p>
-        <div class="meta">
-            <span class="badge badge-live">MỚI</span> 
-            <span>${formatDate(latest.created_at)}</span>
-        </div>
-    `;
-
-        // 2. Chia bài về các chuyên mục
-        // Lưu ý: Nếu database chưa có cột category chuẩn, bạn có thể tạm thời chia theo số lượng bài để test
-        // Ví dụ: thoisu = articles.slice(5, 9);
-        
-        const thoisu = articles.filter(a => a.category === 'thoisu');
-        const thegioi = articles.filter(a => a.category === 'thegioi');
-        const kinhdoanh = articles.filter(a => a.category === 'kinhdoanh');
-        const congnghe = articles.filter(a => a.category === 'congnghe');
-        const thethao = articles.filter(a => a.category === 'thethao');
-        const giaitri = articles.filter(a => a.category === 'giaitri');
-        const suckhoe = articles.filter(a => a.category === 'suckhoe');
-        const giaoduc = articles.filter(a => a.category === 'giaoduc');
-        const dulich = articles.filter(a => a.category === 'dulich');
-
-        fillSection('thoisu', thoisu);
-        fillSection('thegioi', thegioi);
-        fillSection('kinhdoanh', kinhdoanh);
-        fillSection('congnghe', congnghe);
-        fillSection('thethao', thethao);
-        fillSection('giaitri', giaitri);
-        fillSection('suckhoe', suckhoe);
-        fillSection('giaoduc', giaoduc);
-        fillSection('dulich', dulich);
-
-    } catch (error) {
-        console.error("Lỗi tải trang chủ:", error);
-    }
-}
-
-// --- HÀM VẼ VEDETTE (TIN NỔI BẬT) ---
+// --- HÀM 1: VẼ VEDETTE ---
 function renderVedette(articles) {
-    const latest = articles[0]; // Bài mới nhất
-    const sub = articles.slice(1, 4); // 3 bài tiếp theo
+    if (!articles || articles.length === 0) return;
 
-    // Render bài to nhất (Vedette Main)
-    // CHÚ Ý: href="detail.html?id=${latest.id}" -> Đây là chỗ tạo link
-    document.querySelector('.vedette-main').innerHTML = `
-        <a href="detail.html?id=${latest.id}" class="thumb-wrapper">
-            <img src="${fixImg(latest.image_url)}" alt="${latest.title}">
-        </a>
-        <h1 class="title-serif"><a href="detail.html?id=${latest.id}">${latest.title}</a></h1>
-        <p class="desc">${latest.summary || ''}</p>
-        <div class="meta">
-            <span class="badge badge-live">MỚI</span> 
-            <span>${formatDate(latest.created_at)}</span>
-        </div>
-    `;
+    const latest = articles[0]; 
+    const sub = articles.slice(1, 5);
 
-    // Render 3 bài nhỏ bên cạnh
+    const mainContainer = document.querySelector('.vedette-main');
     const subContainer = document.querySelector('.sub-vedette');
-    subContainer.innerHTML = '';
-    sub.forEach(item => {
-        subContainer.innerHTML += `
-            <article class="sub-vedette-item article-card">
-                <h3 class="title-serif"><a href="detail.html?id=${item.id}">${item.title}</a></h3>
-                <div class="meta text-gray">${formatDate(item.created_at)}</div>
-            </article>
-            <div style="border-top:1px solid #f0f0f0"></div>
-        `;
-    });
-}
 
-// --- HÀM ĐỔ DỮ LIỆU VÀO TỪNG CHUYÊN MỤC ---
-function fillSection(sectionId, data) {
-    const section = document.getElementById(sectionId);
-    if (!section || data.length === 0) return;
-
-    const first = data[0]; 
-    const others = data.slice(1, 4); 
-
-    const bigCard = section.querySelector('.card-row');
-    if (bigCard) {
-        bigCard.innerHTML = `
-            <a href="detail.html?id=${first.id}" class="thumb-wrapper">
-                <img src="${fixImg(first.image_url)}" 
-                     alt="${first.title}"
-                     onerror="this.src='https://placehold.co/800x400?text=Anh+Loi+Link'">
+    if (mainContainer) {
+        mainContainer.innerHTML = `
+            <a href="detail.html?id=${latest.id}" class="thumb-wrapper">
+                <img src="${fixImg(latest.image_url)}" alt="${latest.title}">
             </a>
-            <div class="card-content">
-                <h3 class="title-serif"><a href="detail.html?id=${first.id}">${first.title}</a></h3>
-                <p class="desc">${first.summary || ''}</p>
+            <h1 class="title-serif"><a href="detail.html?id=${latest.id}">${latest.title}</a></h1>
+            <p class="desc">${latest.summary || ''}</p>
+            <div class="meta">
+                <span class="text-red bold">${categoryNames[latest.category] || 'Tin tức'}</span><span class="dot"></span>
+                <span class="badge badge-live">MỚI</span> 
+                <span>${formatDate(latest.created_at)}</span>
             </div>
         `;
     }
-    
-    // Sửa tương tự cho phần smallGrid nếu cần
 
-    // Tìm thẻ chứa 3 bài nhỏ (grid-3)
-    const smallGrid = section.querySelector('.grid-3');
-    if (smallGrid) {
-        // CHÚ Ý: href="detail.html?id=${item.id}"
-        smallGrid.innerHTML = others.map(item => `
-            <article class="card-stack article-card">
-                <a href="detail.html?id=${item.id}" class="thumb-wrapper">
-                    <img src="${fixImg(item.image_url)}" alt="${item.title}">
-                </a>
-                <h3 class="title-serif"><a href="detail.html?id=${item.id}">${item.title}</a></h3>
-            </article>
-        `).join('');
+    if (subContainer) {
+        let subHtml = '';
+        sub.forEach((item, index) => {
+            if (index > 0) subHtml += `<div style="border-top:1px solid #f0f0f0"></div>`;
+            subHtml += `
+                <article class="sub-vedette-item article-card">
+                    <h3 class="title-serif"><a href="detail.html?id=${item.id}">${item.title}</a></h3>
+                    <div class="meta text-gray">${formatDate(item.created_at)}</div>
+                </article>
+            `;
+        });
+        subContainer.innerHTML = subHtml;
     }
 }
 
-// --- CÁC SỰ KIỆN KHÁC (GIỮ NGUYÊN) ---
-document.getElementById('date-now').innerText = new Date().toLocaleDateString('vi-VN', {weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric'});
-window.onscroll = function() {
-    var btn = document.getElementById("back-to-top");
-    if (window.pageYOffset > 300) btn.classList.add("visible"); else btn.classList.remove("visible");
-};
-function openLogin() { document.getElementById("loginModal").classList.add("active"); }
-function closeLogin() { document.getElementById("loginModal").classList.remove("active"); }
-document.getElementById("loginModal").addEventListener("click", function(e) { if (e.target === this) closeLogin(); });
-function toggleSidebar() {
-    document.getElementById("sidebarMenu").classList.toggle("active");
-    document.getElementById("sidebarOverlay").classList.toggle("active");
+// --- HÀM 2: VẼ TỪNG CHUYÊN MỤC RIÊNG BIỆT ---
+function renderCategorySection(allArticles, catId, displayCount = 4) {
+    const section = document.getElementById(catId);
+    if (!section) return;
+
+    const catArticles = allArticles.filter(art => art.category === catId).slice(0, displayCount);
+
+    if (catArticles.length === 0) return;
+
+    const firstArticle = catArticles[0];
+    const otherArticles = catArticles.slice(1);
+
+    const bigCardHtml = `
+        <article class="card-row article-card">
+            <a href="detail.html?id=${firstArticle.id}" class="thumb-wrapper">
+                <img src="${fixImg(firstArticle.image_url)}" alt="${firstArticle.title}">
+            </a>
+            <div class="card-content">
+                <h3 class="title-serif"><a href="detail.html?id=${firstArticle.id}">${firstArticle.title}</a></h3>
+                <p class="desc">${firstArticle.summary || ''}</p>
+            </div>
+        </article>
+    `;
+
+    let smallCardsHtml = '';
+    if (otherArticles.length > 0) {
+        smallCardsHtml = '<div class="grid-3">';
+        otherArticles.forEach(art => {
+            smallCardsHtml += `
+                <article class="card-stack article-card">
+                    <a href="detail.html?id=${art.id}" class="thumb-wrapper">
+                        <img src="${fixImg(art.image_url)}" alt="${art.title}">
+                    </a>
+                    <h3 class="title-serif"><a href="detail.html?id=${art.id}">${art.title}</a></h3>
+                </article>
+            `;
+        });
+        smallCardsHtml += '</div>';
+    }
+
+    const header = section.querySelector('.cat-header');
+    section.innerHTML = '';
+    if (header) section.appendChild(header);
+    section.insertAdjacentHTML('beforeend', bigCardHtml + smallCardsHtml);
 }
 
-// Chạy hàm lấy dữ liệu ngay khi web tải xong
-initHomePage();
+
+// ===============================================
+// --- HÀM XỬ LÝ UI (BURGER MENU, LOGIN...) ---
+// ===============================================
+
+function toggleSidebar() {
+    const sidebarMenu = document.getElementById("sidebarMenu");
+    const sidebarOverlay = document.getElementById("sidebarOverlay");
+    if (sidebarMenu && sidebarOverlay) {
+        sidebarMenu.classList.toggle("active");
+        sidebarOverlay.classList.toggle("active");
+    }
+}
+
+// Các hàm mở/đóng modal login vẫn giữ để hỗ trợ nút "Đăng nhập" ở Header
+function openLogin() { 
+    const loginModal = document.getElementById("loginModal");
+    if (loginModal) loginModal.classList.add("active"); 
+}
+
+function closeLogin() { 
+    const loginModal = document.getElementById("loginModal");
+    if (loginModal) loginModal.classList.remove("active"); 
+}
+
+
+// ===============================================
+// --- CHẠY CHÍNH (MAIN) ---
+// ===============================================
+
+document.addEventListener('DOMContentLoaded', async function() {
+    const dateNowElement = document.getElementById('date-now');
+    if (dateNowElement) {
+        dateNowElement.innerText = new Date().toLocaleDateString('vi-VN', {weekday: 'long', day: 'numeric', month: 'numeric', year: 'numeric'});
+    }
+
+    const loginModal = document.getElementById("loginModal");
+    if (loginModal) {
+        loginModal.addEventListener("click", function(e) { 
+            if (e.target === this) closeLogin(); 
+        });
+    }
+
+    try {
+        const res = await fetch(`${API_URL}/articles`);
+        const allArticles = await res.json();
+        
+        renderVedette(allArticles);
+
+        renderCategorySection(allArticles, 'thoisu');
+        renderCategorySection(allArticles, 'thegioi');
+        renderCategorySection(allArticles, 'kinhdoanh');
+        renderCategorySection(allArticles, 'congnghe');
+        renderCategorySection(allArticles, 'thethao');
+        renderCategorySection(allArticles, 'giaitri');
+        renderCategorySection(allArticles, 'suckhoe');
+        renderCategorySection(allArticles, 'giaoduc');
+        renderCategorySection(allArticles, 'dulich');
+
+    } catch (error) {
+        console.error("Lỗi tải dữ liệu Trang chủ:", error);
+    }
+});
+
+// --- LƯU Ý: ĐÃ XÓA TOÀN BỘ PHẦN LOGIC AUTH Ở ĐÂY ---
+// Logic auth sẽ được xử lý hoàn toàn bởi file script/auth.js
+// để tránh xung đột sự kiện (như lỗi bấm vào tên bị đăng xuất).

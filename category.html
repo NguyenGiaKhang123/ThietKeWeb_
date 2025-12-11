@@ -3,27 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Báo 247 - Tin tức cập nhật từng giây</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Chuyên mục</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style/homePage_style.css">
     <style>
+        /* CSS riêng cho tiêu đề chuyên mục */
+        .cat-heading {
+            border-bottom: 2px solid #e60000;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            margin-top: 30px; 
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .cat-heading h1 {
+            font-family: "Merriweather", serif;
+            font-size: 32px;
+            font-weight: 900;
+            color: #b30000;
+            text-transform: uppercase;
+            line-height: 1;
+            margin: 0;
+        }
+        .breadcrumb { font-size: 13px; color: #666; }
+        .breadcrumb a:hover { text-decoration: underline; color: #e60000; }
+        
+        /* Hiệu ứng loading cho danh sách bài viết */
         .skeleton { background-color: #e0e0e0; border-radius: 4px; margin-bottom: 10px; animation: skeleton-loading 1.5s infinite linear; }
         @keyframes skeleton-loading { 0% { background-color: #e0e0e0; } 50% { background-color: #f0f0f0; } 100% { background-color: #e0e0e0; } }
-        .skeleton-img { width: 100%; height: 200px; }
-        .skeleton-title { width: 80%; height: 24px; margin-top: 10px; }
-        .skeleton-text { width: 100%; height: 16px; margin-top: 8px; }
-        .skeleton-text-short { width: 60%; height: 16px; margin-top: 8px; }
-        .skeleton-avatar { width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 15px; }
-        .vedette-skeleton { height: 400px; width: 100%; }
-        .sub-vedette-skeleton { height: 100px; width: 100%; margin-bottom: 15px; }
     </style>
 </head>
 <body>
 
     <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-    
     <div class="sidebar-menu" id="sidebarMenu">
         <div class="sidebar-header">
             <h3>Tất cả chuyên mục</h3>
@@ -158,6 +171,30 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="loginModal">
+        <div class="login-box">
+            <div class="close-btn" onclick="closeLogin()" style="float:right; cursor:pointer; font-size:24px;">×</div>
+            <div class="auth-tabs" style="display:flex; margin-bottom:20px; border-bottom:1px solid #ddd;">
+                <div class="auth-tab active" id="tab-login" onclick="switchTab('login')" style="flex:1; text-align:center; padding:10px; cursor:pointer; font-weight:bold; border-bottom:2px solid #e60000; color:#e60000;">Đăng nhập</div>
+                <div class="auth-tab" id="tab-register" onclick="switchTab('register')" style="flex:1; text-align:center; padding:10px; cursor:pointer; color:#666;">Đăng ký</div>
+            </div>
+            <form id="form-login">
+                <h3 style="margin-bottom:15px; text-align:center;">Chào mừng trở lại!</h3>
+                <div class="form-group"><input type="text" id="login-input" class="form-input" placeholder="Email hoặc tên đăng nhập" required></div>
+                <div class="form-group"><input type="password" id="login-pass" class="form-input" placeholder="Mật khẩu" required></div>
+                <button type="button" class="btn-login" onclick="handleLogin()">ĐĂNG NHẬP</button>
+            </form>
+            <form id="form-register" style="display:none;">
+                <h3 style="margin-bottom:15px; text-align:center;">Tạo tài khoản mới</h3>
+                <div class="form-group"><input type="text" id="reg-username" class="form-input" placeholder="Tên đăng nhập" required></div>
+                <div class="form-group"><input type="email" id="reg-email" class="form-input" placeholder="Email" required></div>
+                <div class="form-group"><input type="password" id="reg-pass" class="form-input" placeholder="Mật khẩu" required></div>
+                <button type="button" class="btn-login" onclick="handleRegister()" style="background:#04284d;">ĐĂNG KÝ</button>
+            </form>
+            <div id="auth-message" style="margin-top:15px; text-align:center; color:red; font-size:13px;"></div>
+        </div>
+    </div>
+
     <header>
         <div class="container">
             <div class="header-top">
@@ -167,10 +204,7 @@
                         <div style="font-size:11px; color:#aaa; margin-top:4px; letter-spacing: 0.5px;">Tin tức cập nhật từng giây</div>
                     </div>
                     <div class="header-info">
-                        <span>TP HCM <svg class="icon" viewBox="0 0 24 24" style="fill:#ccc;width:10px;"><path d="M7 10l5 5 5-5z"/></svg></span>
-                        <span style="display:flex; align-items:center; gap:5px;"><svg class="icon" viewBox="0 0 24 24" style="fill:#ccc"><path d="M19.36 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.64-4.96z"/></svg> 23°</span>
-                        <span style="color:#444">|</span>
-                        <span id="date-now">Thứ ba, 9/12/2025</span>
+                        <span id="date-now">...</span>
                     </div>
                 </div>
                 <div class="header-right">
@@ -294,115 +328,33 @@
     </header>
 
     <div class="container">
-        <section class="vedette-section">
-            <div class="vedette-grid">
-                <article class="vedette-main article-card">
-                    <div class="skeleton vedette-skeleton"></div>
-                    <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton skeleton-text"></div>
-                    <div class="skeleton skeleton-text-short"></div>
-                </article>
-                <div class="sub-vedette">
-                    <div class="skeleton sub-vedette-skeleton"></div>
-                    <div class="skeleton sub-vedette-skeleton"></div>
-                    <div class="skeleton sub-vedette-skeleton"></div>
-                    <div class="skeleton sub-vedette-skeleton"></div>
-                </div>
+        <div class="cat-heading">
+            <h1 id="cat-title">Đang tải...</h1>
+            <div class="breadcrumb">
+                <a href="homePage.html">Trang chủ</a> / <span id="bread-current">...</span>
             </div>
-        </section>
+        </div>
 
-        <div class="layout-split">
+        <div class="layout-split" style="margin-top: 0; padding-top: 0;">
             <main>
-                <section id="thoisu" class="cat-section">
-                    <div class="cat-header"><h2 class="cat-title"><a href="#">Thời sự</a></h2></div>
-                    <div class="skeleton skeleton-img" style="height: 150px;"></div>
-                    <div class="skeleton skeleton-title"></div>
-                    <div class="skeleton skeleton-text"></div>
-                </section>
-                <section id="thegioi" class="cat-section">
-                    <div class="cat-header"><h2 class="cat-title"><a href="#">Thế giới</a></h2></div>
-                    <div class="skeleton skeleton-img" style="height: 150px;"></div>
-                    <div class="skeleton skeleton-title"></div>
-                </section>
-                <section id="kinhdoanh" class="cat-section">
-                    <div class="cat-header"><h2 class="cat-title"><a href="#">Kinh doanh</a></h2></div>
-                    <div class="skeleton skeleton-img" style="height: 150px;"></div>
-                    <div class="skeleton skeleton-title"></div>
-                </section>
-                <section id="congnghe" class="cat-section">
-                    <div class="cat-header"><h2 class="cat-title"><a href="#">Công nghệ</a></h2></div>
-                    <div class="skeleton skeleton-img" style="height: 150px;"></div>
-                    <div class="skeleton skeleton-title"></div>
-                </section>
-                <section id="thethao" class="cat-section">
-                    <div class="cat-header"><h2 class="cat-title"><a href="#">Thể thao</a></h2></div>
-                    <div class="skeleton skeleton-img" style="height: 150px;"></div>
-                    <div class="skeleton skeleton-title"></div>
-                </section>
-                <section id="giaitri" class="cat-section">
-                    <div class="cat-header"><h2 class="cat-title"><a href="#">Giải trí</a></h2></div>
-                    <div class="skeleton skeleton-img" style="height: 150px;"></div>
-                    <div class="skeleton skeleton-title"></div>
-                </section>
-                <section id="suckhoe" class="cat-section">
-                    <div class="cat-header"><h2 class="cat-title"><a href="#">Sức khỏe</a></h2></div>
-                    <div class="skeleton skeleton-img" style="height: 150px;"></div>
-                    <div class="skeleton skeleton-title"></div>
-                </section>
-                <section id="giaoduc" class="cat-section">
-                    <div class="cat-header"><h2 class="cat-title"><a href="#">Giáo dục</a></h2></div>
-                    <div class="skeleton skeleton-img" style="height: 150px;"></div>
-                    <div class="skeleton skeleton-title"></div>
-                </section>
-                <section id="dulich" class="cat-section">
-                    <div class="cat-header"><h2 class="cat-title"><a href="#">Du lịch</a></h2></div>
-                    <div class="skeleton skeleton-img" style="height: 150px;"></div>
-                    <div class="skeleton skeleton-title"></div>
-                </section>
-                <section id="gocnhin" class="cat-section gocnhin-section">
-                    <div class="cat-header" style="border-bottom: none; margin-bottom: 10px;">
-                        <h2 class="cat-title"><a href="category.html?cat=gocnhin" style="color:#9f224e;">Góc nhìn</a></h2>
-                    </div>
-                    <div class="gocnhin-grid">
-                        <div class="op-card" style="display: flex; flex-direction: column; align-items: center;"><div class="skeleton skeleton-avatar"></div><div class="skeleton skeleton-text-short"></div><div class="skeleton skeleton-text"></div></div>
-                        <div class="op-card" style="display: flex; flex-direction: column; align-items: center;"><div class="skeleton skeleton-avatar"></div><div class="skeleton skeleton-text-short"></div><div class="skeleton skeleton-text"></div></div>
-                        <div class="op-card" style="display: flex; flex-direction: column; align-items: center;"><div class="skeleton skeleton-avatar"></div><div class="skeleton skeleton-text-short"></div><div class="skeleton skeleton-text"></div></div>
-                        <div class="op-card" style="display: flex; flex-direction: column; align-items: center;"><div class="skeleton skeleton-avatar"></div><div class="skeleton skeleton-text-short"></div><div class="skeleton skeleton-text"></div></div>
-                    </div>
-                </section>
-                <section id="doanhnghiep" class="cat-section">
-                    <div class="info-box">
-                        <div class="info-header">Thông tin Tòa soạn & Đối tác</div>
-                        <div class="info-body">
-                            <div class="e-col">
-                                <div class="info-row"><span class="info-label">Giấy phép hoạt động:</span> Số 08/GP-BTTTT</div>
-                                <div class="info-row"><span class="info-label">Tổng biên tập:</span> Nguyễn Văn A</div>
-                                <div class="info-row"><span class="info-label">Tòa soạn:</span> Tầng 10, Tòa nhà Center Point, Quận 1, TP. HCM</div>
-                                <div class="info-row"><span class="info-label">Hotline:</span> 0909.123.456 (24/7)</div>
-                            </div>
-                            <div class="e-col sponsor-wrapper" style="margin-top:0; padding-top:0; border-top:none;">
-                                <div class="sponsor-title">Đối tác đồng hành</div>
-                                <div class="logo-scroll">
-                                    <img src="https://placehold.co/120x40/ddd/555?text=SAMSUNG" class="sponsor-logo" title="Samsung">
-                                    <img src="https://placehold.co/120x40/ddd/555?text=VINFAST" class="sponsor-logo" title="VinFast">
-                                    <img src="https://placehold.co/120x40/ddd/555?text=VIETJET" class="sponsor-logo" title="Vietjet Air">
-                                    <img src="https://placehold.co/120x40/ddd/555?text=FPT" class="sponsor-logo" title="FPT Telecom">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+                <div id="article-list">
+                    <div class="skeleton" style="height: 200px;"></div>
+                    <div class="skeleton" style="height: 200px;"></div>
+                    <div class="skeleton" style="height: 200px;"></div>
+                </div>
             </main>
 
             <aside>
                 <div class="sidebar-widget">
                     <div class="widget-head"><span class="widget-title">Xem nhiều</span></div>
-                    <div class="skeleton" style="height: 30px;"></div><div class="skeleton" style="height: 30px;"></div><div class="skeleton" style="height: 30px;"></div><div class="skeleton" style="height: 30px;"></div><div class="skeleton" style="height: 30px;"></div>
+                    <ul class="rank-list">
+                        <li class="rank-item"><span class="rank-num" style="color:#e60000; font-weight:bold; font-size:24px;">1</span><a href="#" class="rank-link">Giá vàng hôm nay tiếp tục phá đỉnh lịch sử</a></li>
+                        <li class="rank-item"><span class="rank-num" style="color:#04284d; font-weight:bold; font-size:24px;">2</span><a href="#" class="rank-link">Dự báo thời tiết: Miền Bắc đón không khí lạnh</a></li>
+                        <li class="rank-item"><span class="rank-num" style="color:#888; font-weight:bold; font-size:24px;">3</span><a href="#" class="rank-link">Công nghệ AI thay đổi thế giới ra sao?</a></li>
+                    </ul>
                 </div>
-                <div class="sidebar-widget" style="background:#f0f0f0; height:250px; display:flex; align-items:center; justify-content:center; color:#999; border-radius:4px;">ADS (Loading...)</div>
-                <div class="sidebar-widget">
-                    <div class="widget-head"><span class="widget-title">Chủ đề quan tâm</span></div>
-                    <div class="skeleton" style="height: 100px;"></div>
+                <div class="sidebar-widget sticky-ad" style="background:#f0f0f0; height:300px; display:flex; align-items:center; justify-content:center; color:#999;">
+                    QUẢNG CÁO
                 </div>
             </aside>
         </div>
@@ -423,6 +375,7 @@
                         <a href="category.html?cat=gocnhin">Góc nhìn</a>
                     </div>
                 </div>
+
                 <div class="footer-col">
                     <h4>Chuyên mục</h4>
                     <div class="footer-link-list">
@@ -433,6 +386,7 @@
                         <a href="category.html?cat=giaoduc">Giáo dục</a>
                     </div>
                 </div>
+
                 <div class="footer-col">
                     <h4>Thông tin & Tiện ích</h4>
                     <div class="footer-link-list">
@@ -443,6 +397,7 @@
                         <a href="#">Ảnh & Video</a>
                     </div>
                 </div>
+
                 <div class="footer-col">
                     <h4>Tải ứng dụng</h4>
                     <div class="app-buttons">
@@ -455,6 +410,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="footer-bottom">
                 <div class="license-info">
                     <p><strong>Báo điện tử 247</strong></p>
@@ -463,6 +419,7 @@
                     <p>Tổng biên tập: <strong>Nguyễn Văn A</strong></p>
                     <p style="margin-top:10px; font-size:12px; color:#999;">© 1997-2025. Toàn bộ bản quyền thuộc về Báo 247.</p>
                 </div>
+                
                 <div class="contact-info">
                     <p>Quảng cáo: <strong>0909.xxx.xxx</strong></p>
                     <p>Email: <a href="mailto:ads@bao247.vn">ads@bao247.vn</a></p>
@@ -479,30 +436,18 @@
         <svg class="icon" style="width:20px; height:20px;" viewBox="0 0 24 24"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/></svg>
     </div>
 
-    <script src="script/homePage_script.js"></script>
+    <script src="script/category_script.js"></script> 
     <script src="script/auth.js"></script>
-    <div class="modal-overlay" id="loginModal">
-        <div class="login-box">
-            <div class="close-btn" onclick="closeLogin()" style="float:right; cursor:pointer; font-size:24px;">×</div>
-            <div class="auth-tabs" style="display:flex; margin-bottom:20px; border-bottom:1px solid #ddd;">
-                <div class="auth-tab active" id="tab-login" onclick="switchTab('login')" style="flex:1; text-align:center; padding:10px; cursor:pointer; font-weight:bold; border-bottom:2px solid #e60000; color:#e60000;">Đăng nhập</div>
-                <div class="auth-tab" id="tab-register" onclick="switchTab('register')" style="flex:1; text-align:center; padding:10px; cursor:pointer; color:#666;">Đăng ký</div>
-            </div>
-            <form id="form-login">
-                <h3 style="margin-bottom:15px; text-align:center;">Chào mừng trở lại!</h3>
-                <div class="form-group"><input type="text" id="login-input" class="form-input" placeholder="Email hoặc tên đăng nhập" required></div>
-                <div class="form-group"><input type="password" id="login-pass" class="form-input" placeholder="Mật khẩu" required></div>
-                <button type="button" class="btn-login" onclick="handleLogin()">ĐĂNG NHẬP</button>
-            </form>
-            <form id="form-register" style="display:none;">
-                <h3 style="margin-bottom:15px; text-align:center;">Tạo tài khoản mới</h3>
-                <div class="form-group"><input type="text" id="reg-username" class="form-input" placeholder="Tên đăng nhập" required></div>
-                <div class="form-group"><input type="email" id="reg-email" class="form-input" placeholder="Email" required></div>
-                <div class="form-group"><input type="password" id="reg-pass" class="form-input" placeholder="Mật khẩu" required></div>
-                <button type="button" class="btn-login" onclick="handleRegister()" style="background:#04284d;">ĐĂNG KÝ</button>
-            </form>
-            <div id="auth-message" style="margin-top:15px; text-align:center; color:red; font-size:13px;"></div>
-        </div>
-    </div>
+    <script>
+        // Hỗ trợ đóng mở menu mobile
+        function toggleSidebar() {
+            const sidebarMenu = document.getElementById("sidebarMenu");
+            const sidebarOverlay = document.getElementById("sidebarOverlay");
+            if (sidebarMenu && sidebarOverlay) {
+                sidebarMenu.classList.toggle("active");
+                sidebarOverlay.classList.toggle("active");
+            }
+        }
+    </script>
 </body>
 </html>
