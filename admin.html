@@ -2,207 +2,61 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trang Quản Trị - Báo 247</title>
-    <style>
-        body { font-family: sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; background: #f4f4f4; }
-        h2 { border-bottom: 2px solid #28a745; padding-bottom: 10px; color: #333; margin-top: 0; }
-        
-        /* Layout chia 3 cột: Đăng bài | Quản lý Bài viết | Quản lý User */
-        .container { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; }
-        .box { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: 700px; overflow-y: auto; }
-
-        /* Form styles */
-        input, textarea, select { width: 100%; margin-bottom: 10px; padding: 8px; box-sizing: border-box; border: 1px solid #ddd; border-radius: 4px; }
-        button.btn-post { width: 100%; padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; font-weight: bold; border-radius: 4px; }
-        button.btn-post:hover { background: #218838; }
-
-        /* List styles */
-        .list-item { border-bottom: 1px solid #eee; padding: 10px 0; display: flex; justify-content: space-between; align-items: flex-start; }
-        .item-info h4 { margin: 0 0 5px 0; font-size: 14px; color: #333; }
-        .item-info span { font-size: 11px; color: #888; background: #eee; padding: 2px 6px; border-radius: 3px; margin-right: 5px; }
-        
-        /* User List Specifics */
-        .user-info p { margin: 2px 0; font-size: 12px; color: #555; }
-        .user-pass { font-family: monospace; color: #d63384; background: #fdf2f8; padding: 2px 4px; border-radius: 3px; }
-
-        .btn-delete { background: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; font-size: 12px; margin-left: 10px; height: fit-content; }
-        .btn-delete:hover { background: #c82333; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style/admin.css">
 </head>
 <body>
 
-<h1 style="text-align:center; color:#333;">DASHBOARD QUẢN TRỊ</h1>
+    <h1>DASHBOARD QUẢN TRỊ</h1>
 
-<div class="container">
-    <div class="box">
-        <h2>✍️ Đăng bài mới</h2>
-        <label>Tiêu đề:</label>
-        <input type="text" id="title" placeholder="Nhập tiêu đề...">
-        
-        <label>Tóm tắt:</label>
-        <textarea id="summary" rows="3" placeholder="Tóm tắt ngắn..."></textarea>
-        
-        <label>Chuyên mục:</label>
-        <select id="category">
-            <option value="thoisu">Thời sự</option>
-            <option value="thegioi">Thế giới</option>
-            <option value="kinhdoanh">Kinh doanh</option>
-            <option value="congnghe">Công nghệ</option>
-            <option value="thethao">Thể thao</option>
-            <option value="giaitri">Giải trí</option>
-            <option value="suckhoe">Sức khỏe</option>
-            <option value="giaoduc">Giáo dục</option>
-            <option value="dulich">Du lịch</option>
-            <option value="gocnhin">Góc nhìn</option>  
-            <option value="thugian">Thư giãn</option>
-        </select>
+    <div class="container">
+        <div class="box">
+            <h2>✍️ Đăng bài mới</h2>
+            
+            <label>Tiêu đề:</label>
+            <input type="text" id="title" placeholder="Nhập tiêu đề...">
+            
+            <label>Tóm tắt:</label>
+            <textarea id="summary" rows="3" placeholder="Tóm tắt ngắn..."></textarea>
+            
+            <label>Chuyên mục:</label>
+            <select id="category">
+                <option value="thoisu">Thời sự</option>
+                <option value="thegioi">Thế giới</option>
+                <option value="kinhdoanh">Kinh doanh</option>
+                <option value="congnghe">Công nghệ</option>
+                <option value="thethao">Thể thao</option>
+                <option value="giaitri">Giải trí</option>
+                <option value="suckhoe">Sức khỏe</option>
+                <option value="giaoduc">Giáo dục</option>
+                <option value="dulich">Du lịch</option>
+                <option value="gocnhin">Góc nhìn</option>  
+                <option value="thugian">Thư giãn</option>
+            </select>
 
-        <label>Link ảnh:</label>
-        <input type="text" id="imageUrl" placeholder="https://...">
-        
-        <label>Nội dung:</label>
-        <textarea id="content" rows="8" placeholder="Nội dung bài viết..."></textarea>
-        
-        <button class="btn-post" onclick="dangBai()">ĐĂNG BÀI</button>
+            <label>Link ảnh (URL):</label>
+            <input type="text" id="imageUrl" placeholder="https://...">
+            
+            <label>Nội dung chi tiết (HTML):</label>
+            <textarea id="content" rows="12" placeholder="Nội dung bài viết..."></textarea>
+            
+            <button class="btn-post" onclick="dangBai()">ĐĂNG BÀI NGAY</button>
+        </div>
+
+        <div class="box">
+            <h2 style="border-color:#007bff; color:#007bff;">📰 Quản lý Bài viết</h2>
+            <div id="article-list">Đang tải...</div>
+        </div>
+
+        <div class="box">
+            <h2 style="border-color:#dc3545; color:#dc3545;">👥 Quản lý Tài khoản</h2>
+            <div id="user-list">Đang tải...</div>
+        </div>
     </div>
 
-    <div class="box">
-        <h2 style="border-color:#007bff;">newspaper Quản lý Bài viết</h2>
-        <div id="article-list">Đang tải...</div>
-    </div>
-
-    <div class="box">
-        <h2 style="border-color:#dc3545;">users Quản lý Tài khoản</h2>
-        <div id="user-list">Đang tải...</div>
-    </div>
-</div>
-
-<script>
-const API_URL = 'http://localhost:4000/api';
-
-// --- PHẦN 1: QUẢN LÝ BÀI VIẾT ---
-
-async function dangBai() {
-    const dataToSend = {
-        title: document.getElementById('title').value,
-        summary: document.getElementById('summary').value,
-        category: document.getElementById('category').value,
-        content: document.getElementById('content').value,
-        image_url: document.getElementById('imageUrl').value
-    };
-
-    if(!dataToSend.title) return alert("Vui lòng nhập tiêu đề!");
-
-    try {
-        const res = await fetch(`${API_URL}/add-article`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dataToSend)
-        });
-
-        if (res.ok) {
-            alert("✅ Đăng bài thành công!");
-            document.getElementById('title').value = "";
-            document.getElementById('summary').value = "";
-            document.getElementById('content').value = "";
-            document.getElementById('imageUrl').value = "";
-            taiDanhSachBaiViet();
-        } else {
-            alert("Lỗi server!");
-        }
-    } catch (e) { console.error(e); }
-}
-
-async function taiDanhSachBaiViet() {
-    try {
-        const res = await fetch(`${API_URL}/articles`);
-        const articles = await res.json();
-        
-        const listDiv = document.getElementById('article-list');
-        
-        if(articles.length === 0) {
-            listDiv.innerHTML = '<p>Chưa có bài viết nào.</p>';
-            return;
-        }
-
-        let html = '';
-        articles.forEach(art => {
-            html += `
-                <div class="list-item">
-                    <div class="item-info">
-                        <h4>${art.title}</h4>
-                        <span>${art.category}</span> <span style="color:#aaa">ID: ${art.id}</span>
-                    </div>
-                    <button class="btn-delete" onclick="xoaBai(${art.id})">Xóa</button>
-                </div>
-            `;
-        });
-        listDiv.innerHTML = html;
-    } catch (e) { console.error(e); }
-}
-
-async function xoaBai(id) {
-    if(!confirm("Xóa bài viết này?")) return;
-    try {
-        const res = await fetch(`${API_URL}/delete-article/${id}`, { method: 'DELETE' });
-        if (res.ok) { alert("Đã xóa!"); taiDanhSachBaiViet(); }
-    } catch (e) { alert("Lỗi kết nối!"); }
-}
-
-// --- PHẦN 2: QUẢN LÝ USER (MỚI) ---
-
-async function taiDanhSachUser() {
-    try {
-        // Gọi API lấy danh sách User
-        const res = await fetch(`${API_URL}/users`);
-        const users = await res.json();
-        
-        const listDiv = document.getElementById('user-list');
-        
-        if(users.length === 0) {
-            listDiv.innerHTML = '<p>Chưa có thành viên nào.</p>';
-            return;
-        }
-
-        let html = '';
-        users.forEach(u => {
-            html += `
-                <div class="list-item">
-                    <div class="item-info user-info">
-                        <h4>${u.username} <span style="background:#eee; color:#666;">ID: ${u.id}</span></h4>
-                        <p>📧 Email: ${u.email}</p>
-                        <p>🔑 Pass: <span class="user-pass">${u.password}</span></p>
-                    </div>
-                    <button class="btn-delete" onclick="xoaUser(${u.id})">Xóa</button>
-                </div>
-            `;
-        });
-        listDiv.innerHTML = html;
-    } catch (e) { 
-        console.error(e);
-        document.getElementById('user-list').innerHTML = '<p style="color:red">Lỗi tải danh sách User (Cần thêm API vào server.js)</p>';
-    }
-}
-
-async function xoaUser(id) {
-    if(!confirm("CẢNH BÁO: Bạn có chắc muốn xóa vĩnh viễn tài khoản này?")) return;
-    try {
-        // Dùng lại API xóa user đã có ở server.js
-        const res = await fetch(`${API_URL}/user/delete/${id}`, { method: 'DELETE' });
-        if (res.ok) { 
-            alert("Đã xóa tài khoản thành công!"); 
-            taiDanhSachUser(); // Load lại danh sách
-        } else {
-            alert("Lỗi khi xóa!");
-        }
-    } catch (e) { alert("Lỗi kết nối!"); }
-}
-
-// KHỞI CHẠY CẢ 2 DANH SÁCH
-taiDanhSachBaiViet();
-taiDanhSachUser();
-
-</script>
+    <script src="script/admin.js"></script>
 
 </body>
 </html>

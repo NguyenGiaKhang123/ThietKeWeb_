@@ -1,0 +1,115 @@
+/* style/admin_style.css */
+
+body { 
+    font-family: "Inter", sans-serif; 
+    padding: 20px; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    background: #f4f4f4; 
+    color: #333;
+}
+
+h1 { 
+    text-align: center; 
+    color: #333; 
+    margin-bottom: 30px; 
+}
+
+h2 { 
+    border-bottom: 2px solid #28a745; 
+    padding-bottom: 10px; 
+    color: #333; 
+    margin-top: 0; 
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+/* Layout chia 3 cột: Đăng bài | Quản lý Bài viết | Quản lý User */
+.container { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr; 
+    gap: 20px; 
+}
+
+.box { 
+    background: #fff; 
+    padding: 20px; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+    height: 750px; 
+    overflow-y: auto; 
+}
+
+/* Form styles */
+label { font-weight: 600; font-size: 13px; display: block; margin-bottom: 5px; }
+input, textarea, select { 
+    width: 100%; 
+    margin-bottom: 15px; 
+    padding: 10px; 
+    box-sizing: border-box; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    font-family: inherit;
+}
+
+button.btn-post { 
+    width: 100%; 
+    padding: 12px; 
+    background: #28a745; 
+    color: white; 
+    border: none; 
+    cursor: pointer; 
+    font-weight: bold; 
+    border-radius: 4px; 
+    transition: background 0.2s;
+}
+button.btn-post:hover { background: #218838; }
+
+/* List styles */
+.list-item { 
+    border-bottom: 1px solid #eee; 
+    padding: 15px 0; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+}
+.list-item:last-child { border-bottom: none; }
+
+.item-info h4 { margin: 0 0 5px 0; font-size: 14px; color: #333; }
+.item-info span { 
+    font-size: 11px; 
+    color: #555; 
+    background: #eee; 
+    padding: 2px 6px; 
+    border-radius: 3px; 
+    margin-right: 5px; 
+}
+
+/* User List Specifics */
+.user-info p { margin: 4px 0; font-size: 12px; color: #555; }
+.user-pass { 
+    font-family: monospace; 
+    color: #d63384; 
+    background: #fdf2f8; 
+    padding: 2px 4px; 
+    border-radius: 3px; 
+}
+
+.btn-delete { 
+    background: #dc3545; 
+    color: white; 
+    border: none; 
+    padding: 6px 12px; 
+    cursor: pointer; 
+    border-radius: 4px; 
+    font-size: 12px; 
+    margin-left: 10px; 
+    height: fit-content; 
+    white-space: nowrap;
+}
+.btn-delete:hover { background: #c82333; }
+
+/* Scrollbar đẹp cho box */
+.box::-webkit-scrollbar { width: 6px; }
+.box::-webkit-scrollbar-track { background: #f1f1f1; }
+.box::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
