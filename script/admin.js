@@ -23,7 +23,7 @@ async function dangBai() {
         });
 
         if (res.ok) {
-            alert("✅ Đăng bài thành công!");
+            alert("Đăng bài thành công!");
             // Reset form
             document.getElementById('title').value = "";
             document.getElementById('summary').value = "";
@@ -96,8 +96,8 @@ async function taiDanhSachUser() {
                 <div class="list-item">
                     <div class="item-info user-info">
                         <h4>${u.username} <span style="background:#eee; color:#666;">ID: ${u.id}</span></h4>
-                        <p>📧 Email: ${u.email}</p>
-                        <p>🔑 Pass: <span class="user-pass">${u.password}</span></p>
+                        <p> Email: ${u.email}</p>
+                        <p> Pass: <span class="user-pass">${u.password}</span></p>
                     </div>
                     <button class="btn-delete" onclick="xoaUser(${u.id})">Xóa</button>
                 </div>
@@ -127,4 +127,5 @@ async function xoaUser(id) {
 document.addEventListener('DOMContentLoaded', () => {
     taiDanhSachBaiViet();
     taiDanhSachUser();
+
 });
