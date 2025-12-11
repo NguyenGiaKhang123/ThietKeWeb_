@@ -28,10 +28,9 @@ db.connect((err) => {
 // =======================================================
 // 2. CẤU HÌNH MIDDLEWARE (Trung gian xử lý)
 // =======================================================
-app.use(cors()); // Cho phép Frontend (khác port) gọi API
-app.use(express.json()); // Cho phép đọc dữ liệu JSON từ body request
+app.use(cors()); 
+app.use(express.json()); 
 
-// --- QUAN TRỌNG: Mở thư mục 'uploads' ra internet ---
 // Giúp trình duyệt xem được ảnh qua đường dẫn: https://thietkeweb-8kq5.onrender.com/uploads/ten-anh.jpg
 app.use('/uploads', express.static('uploads')); 
 
@@ -45,8 +44,6 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/'); 
     },
     filename: (req, file, cb) => {
-        // Đặt tên file = Thời gian hiện tại + Đuôi file gốc (VD: .jpg, .png)
-        // Mục đích: Tránh việc 2 ảnh cùng tên ghi đè lên nhau
         cb(null, Date.now() + path.extname(file.originalname));
     }
 });
@@ -65,7 +62,6 @@ app.post('/api/upload-avatar', upload.single('avatar'), (req, res) => {
         return res.status(400).json({ message: 'Lỗi: Chưa chọn file nào!' });
     }
     // Tạo đường dẫn đầy đủ để Frontend lưu vào DB
-    // Ví dụ: https://thietkeweb-8kq5.onrender.com/uploads/1702345678.jpg
     const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
     res.json({ url: fileUrl });
 });
@@ -146,7 +142,7 @@ app.put('/api/user/update', (req, res) => {
     db.query(sql, [value, id], (err, result) => {
         if (err) {
             console.error(err);
-            if (err.code === 'ER_DUP_ENTRY') { // Lỗi trùng lặp (ví dụ trùng email)
+            if (err.code === 'ER_DUP_ENTRY') { // Lỗi trùng lặp 
                  return res.status(400).json({ message: 'Dữ liệu này đã tồn tại (ví dụ: Email trùng)!' });
             }
             return res.status(500).json({ message: 'Lỗi cập nhật' });
