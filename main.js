@@ -76,6 +76,6 @@ document.getElementById('d-content').innerHTML = noiDung;
 function hienThiLoi(message) {
     document.getElementById('d-title').innerText = "Thông báo lỗi";
     document.getElementById('d-summary').innerText = message;
-    document.getElementById('d-content').innerHTML = `<a href="homePage.html" style="color:red; font-weight:bold;">← Quay lại trang chủ</a>`;
+    document.getElementById('d-content').innerHTML = `<a href="index.html" style="color:red; font-weight:bold;">← Quay lại trang chủ</a>`;
     document.getElementById('d-img').style.display = 'none';
 }

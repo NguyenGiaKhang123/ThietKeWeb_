@@ -156,7 +156,7 @@ async function handleLogin() {
 function handleLogout() {
     if(confirm("Bạn có chắc muốn đăng xuất?")) {
         localStorage.removeItem('currentUser');
-        window.location.href = 'homePage.html'; // Quay về trang chủ khi logout
+        window.location.href = 'index.html'; // Quay về trang chủ khi logout
     }
 }
 
