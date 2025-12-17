@@ -1,11 +1,6 @@
-/* =========================================
-   LOGIC XỬ LÝ TRANG CHI TIẾT (DETAIL)
-   ========================================= */
-
 const DETAIL_API = 'https://thietkeweb-8kq5.onrender.com/api';
 
 document.addEventListener('DOMContentLoaded', async function() {
-    // 1. Lấy ID từ URL (Ví dụ: detail.html?id=5)
     const urlParams = new URLSearchParams(window.location.search);
     const baivietId = urlParams.get('id');
 
@@ -15,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     try {
-        // 2. Gọi API lấy chi tiết bài viết từ Server
+        // Gọi API lấy chi tiết bài viết từ Server
         const res = await fetch(`${DETAIL_API}/articles/${baivietId}`);
         
         if (!res.ok) {
@@ -28,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         console.log("Dữ liệu chi tiết:", baiViet);
 
         // 3. Hiển thị dữ liệu lên giao diện HTML
-        document.title = baiViet.title; // Đổi tên tab trình duyệt
+        document.title = baiViet.title; 
 
         // Điền dữ liệu
         document.getElementById('d-category').innerText = baiViet.category || 'Tin tức';
@@ -54,7 +49,7 @@ document.getElementById('d-content').innerHTML = noiDung;
         // Xử lý ảnh
         const imgElement = document.getElementById('d-img');
         
-        // Kiểm tra biến image_url (đã sửa từ image thành image_url để khớp database)
+        // Kiểm tra biến image_url 
         if (baiViet.image_url && baiViet.image_url !== 'null' && baiViet.image_url !== '') {
             imgElement.src = baiViet.image_url;
             imgElement.style.display = 'block';
@@ -71,7 +66,7 @@ document.getElementById('d-content').innerHTML = noiDung;
         console.error(error);
         hienThiLoi("Không tìm thấy bài viết hoặc lỗi kết nối Server.");
     }
-}); // <-- Đã thêm dấu đóng ngoặc ở đây
+});
 
 function hienThiLoi(message) {
     document.getElementById('d-title').innerText = "Thông báo lỗi";
