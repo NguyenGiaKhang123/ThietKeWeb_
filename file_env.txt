@@ -1,0 +1,6 @@
+DB_HOST=mysql-3957e8ba-phamtuanhung521-9412.j.aivencloud.com    
+DB_USER=avnadmin
+DB_PASSWORD=AVNS_X59wa9Gp99Fbw3IANDP
+DB_NAME=defaultdb
+DB_PORT=17064
+PORT=3000
